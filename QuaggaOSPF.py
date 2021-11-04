@@ -33,3 +33,34 @@ class NetworkTopo( Topo ):
         self.addLink(router1,router2,intfName1='r1-eth1',intfName2='r2-eth1')
 	    self.addLink(h1,router1,intfName2='r1-eth2',params2={ 'ip' : '10.0.1.10/24' })#params2 define the eth2 ip address
 	    self.addLink(h2,router2,intfName2='r2-eth2',params2={ 'ip' : '10.0.2.20/24' })
+
+
+def run():
+    "Test linux router"
+    topo = NetworkTopo()
+    net = Mininet(controller = None, topo=topo )  # controller is used by s1-s3
+    net.start()
+    info( '*** Routing Table on Router:\n' )
+
+
+    r1=net.getNodeByName('r1')
+    r2=net.getNodeByName('r2')
+
+    info('starting zebra and ospfd service:\n')
+    r1.cmd('zebra -f /usr/local/etc/r1zebra.conf -d -z ~/Desktop/r1zebra.api -i ~/Desktop/r1zebra.interface')
+    time.sleep(1)#time for zebra to create api socket
+
+    r2.cmd('zebra -f /usr/local/etc/r2zebra.conf -d -z ~/Desktop/r2zebra.api -i ~/Desktop/r2zebra.interface')
+    
+    r1.cmd('ospfd -f /usr/local/etc/r1ospfd.conf -d -z ~/Desktop/r1zebra.api -i ~/Desktop/r1ospfd.interface')
+    r2.cmd('ospfd -f /usr/local/etc/r2ospfd.conf -d -z ~/Desktop/r2zebra.api -i ~/Desktop/r2ospfd.interface')
+
+    CLI( net )
+    net.stop()
+    os.system("killall -9 ospfd zebra")
+    os.system("rm -f *api*")
+    os.system("rm -f *interface*")
+
+if __name__ == '__main__':
+    setLogLevel( 'info' )
+    run()
