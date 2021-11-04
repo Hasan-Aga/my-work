@@ -18,21 +18,26 @@ class LinuxRouter( Node ):
         self.cmd( 'sysctl net.ipv4.ip_forward=0' )
         super( LinuxRouter, self ).terminate()
 
+
 class NetworkTopo( Topo ):
     "A LinuxRouter connecting three IP subnets"
 
-    def build( self, **_opts):
+    def build( self, **_opts ):
+
         defaultIP1 = '10.0.3.10/24'  # IP address for r0-eth1
         defaultIP2 = '10.0.3.20/24' 
         router1 = self.addNode( 'r1', cls=LinuxRouter, ip=defaultIP1 )
-	    router2 = self.addNode( 'r2', cls=LinuxRouter, ip=defaultIP2 )
+        router2 = self.addNode( 'r2', cls=LinuxRouter, ip=defaultIP2 )
 
+        
         h1 = self.addHost( 'h1', ip='10.0.1.100/24', defaultRoute='via 10.0.1.10') #define gateway
         h2 = self.addHost( 'h2', ip='10.0.2.100/24', defaultRoute='via 10.0.2.20')
 
         self.addLink(router1,router2,intfName1='r1-eth1',intfName2='r2-eth1')
-	    self.addLink(h1,router1,intfName2='r1-eth2',params2={ 'ip' : '10.0.1.10/24' })#params2 define the eth2 ip address
-	    self.addLink(h2,router2,intfName2='r2-eth2',params2={ 'ip' : '10.0.2.20/24' })
+        self.addLink(h1,router1,intfName2='r1-eth2',params2={ 'ip' : '10.0.1.10/24' })#params2 define the eth2 ip address
+        self.addLink(h2,router2,intfName2='r2-eth2',params2={ 'ip' : '10.0.2.20/24' })
+
+        
 
 
 def run():
@@ -41,20 +46,22 @@ def run():
     net = Mininet(controller = None, topo=topo )  # controller is used by s1-s3
     net.start()
     info( '*** Routing Table on Router:\n' )
-
+#    info( net[ 'r1' ].cmd( 'route' ) )
 
     r1=net.getNodeByName('r1')
     r2=net.getNodeByName('r2')
-
     info('starting zebra and ospfd service:\n')
+
+
     r1.cmd('zebra -f /usr/local/etc/r1zebra.conf -d -z ~/Desktop/r1zebra.api -i ~/Desktop/r1zebra.interface')
     time.sleep(1)#time for zebra to create api socket
 
     r2.cmd('zebra -f /usr/local/etc/r2zebra.conf -d -z ~/Desktop/r2zebra.api -i ~/Desktop/r2zebra.interface')
-    
     r1.cmd('ospfd -f /usr/local/etc/r1ospfd.conf -d -z ~/Desktop/r1zebra.api -i ~/Desktop/r1ospfd.interface')
-    r2.cmd('ospfd -f /usr/local/etc/r2ospfd.conf -d -z ~/Desktop/r2zebra.api -i ~/Desktop/r2ospfd.interface')
 
+    r2.cmd('ospfd -f /usr/local/etc/r2ospfd.conf -d -z ~/Desktop/r2zebra.api -i ~/Desktop/r2ospfd.interface')
+    info(r1.cmd('route'))
+    
     CLI( net )
     net.stop()
     os.system("killall -9 ospfd zebra")
