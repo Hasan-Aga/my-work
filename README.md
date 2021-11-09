@@ -2,7 +2,7 @@
 
 ## install quagga:
 unzip quagga-1.2.1.tar.gz and cd into it, then:
-
+```
 sudo apt update
 
 sudo apt install gawk
@@ -26,6 +26,7 @@ sudo apt install libc-ares-dev
 sudo ./configure  --enable-vtysh --enable-user=root --enable-group=root --enable-vty-group=root
 
 sudo make install
+```
 
 There is a zebra.conf.sample file in /usr/local/etc under the quagga folder,You need to create a zebra.conf file and copy the content of zebra.conf.sample into it, so run the follwoing:
 
