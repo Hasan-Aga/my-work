@@ -56,5 +56,6 @@ cd /usr/local/lib
 cp libospf.* /lib
 ```
 
-
+## run the experiment
+clone this repo into the VM and run the python script that is inside the 'advanced' directory.
 
