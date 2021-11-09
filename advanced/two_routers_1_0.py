@@ -52,13 +52,11 @@ def run():
     topo = NetworkTopo()
     net = Mininet(controller = None, topo=topo )  # controller is used by s1-s3
     net.start()
-    info( '*** Routing Table on Router:\n' )
-    info( net[ 'r1' ].cmd( 'route' ) )
 
     r1=net.getNodeByName('r1')
     r2=net.getNodeByName('r2')
 
-    info('configuring ip aliasing')
+    info('configuring ip aliasing \n')
     r1.cmd('ifconfig r1-eth1:0 10.0.3.11/24 \n')
     r2.cmd('ifconfig r2-eth1:0 10.0.3.21/24 \n')
     info('R1 interfaces: \n')
