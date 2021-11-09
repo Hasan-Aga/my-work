@@ -59,11 +59,11 @@ def run():
     r2=net.getNodeByName('r2')
 
     info('configuring ip aliasing')
-    r1.cmd('ifconfig r1-eth1:0 10.0.3.11/24')
-    r2.cmd('ifconfig r2-eth1:0 10.0.3.21/24')
-    info('R1 interfaces:')
+    r1.cmd('ifconfig r1-eth1:0 10.0.3.11/24 \n')
+    r2.cmd('ifconfig r2-eth1:0 10.0.3.21/24 \n')
+    info('R1 interfaces: \n')
     r1.cmd('ifconfig')
-    info('R2 interfaces:')
+    info('R2 interfaces: \n')
     r2.cmd('ifconfig')
     info('starting zebra and ospfd service:\n')
 
