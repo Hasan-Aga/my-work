@@ -1,7 +1,8 @@
 # my-work
 
 ## install quagga:
-unzip quagga-1.2.1.tar.gz and cd into it, then
+unzip quagga-1.2.1.tar.gz and cd into it, then:
+
 sudo apt update
 
 sudo apt install gawk
