@@ -27,8 +27,9 @@ sudo ./configure  --enable-vtysh --enable-user=root --enable-group=root --enable
 
 sudo make install
 
-There is a zebra.conf.sample file in /usr/local/etc under the quagga folder,You need to create a zebra.conf file and copy the content of zebra.conf.sample into it.
-d /usr/local/etc/
+There is a zebra.conf.sample file in /usr/local/etc under the quagga folder,You need to create a zebra.conf file and copy the content of zebra.conf.sample into it, so run the follwoing:
+
+cd /usr/local/etc/
 sudo cp zebra.conf.sample zebra.conf
 
 then run sudo zebra -d
