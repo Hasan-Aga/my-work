@@ -23,11 +23,13 @@ class LinuxRouter( Node ):
 
 class NetworkTopo( Topo ):
     "A LinuxRouter connecting three IP subnets"
+    "The connection between routers uses IP aliases"
 
     def build( self, **_opts ):
 
         defaultIP1 = '10.0.3.10/24'  # IP address for r0-eth1
-        defaultIP2 = '10.0.3.20/24' 
+        defaultIP1_1 = '10.0.3.11/24'  # IP address for r0-eth1:0
+        
         router1 = self.addNode( 'r1', cls=LinuxRouter, ip=defaultIP1 )
         router2 = self.addNode( 'r2', cls=LinuxRouter, ip=defaultIP2 )
     
@@ -56,6 +58,14 @@ def run():
 
     r1=net.getNodeByName('r1')
     r2=net.getNodeByName('r2')
+
+    info('configuring ip aliasing')
+    r1.cmd('ifconfig r1-eth1:0 10.0.3.11/24')
+    r2.cmd('ifconfig r2-eth1:0 10.0.3.21/24')
+    info('R1 interfaces:')
+    r1.cmd('ifconfig')
+    info('R2 interfaces:')
+    r2.cmd('ifconfig')
     info('starting zebra and ospfd service:\n')
 
 
