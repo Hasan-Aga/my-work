@@ -37,13 +37,11 @@ class NetworkTopo( Topo ):
             
         h1 = self.addHost( 'h1', ip='10.0.1.100/24', defaultRoute='via 10.0.1.10') #define gateway
         h2 = self.addHost( 'h2', ip='10.0.2.100/24', defaultRoute='via 10.0.2.20')
-    #        h3 = self.addHost( 'h3', ip='10.0.3.100/24')
 
         self.addLink(router1,router2,intfName1='r1-eth1',intfName2='r2-eth1')
         self.addLink(h1,router1,intfName2='r1-eth2',params2={ 'ip' : '10.0.1.10/24' })#params2 define the eth2 ip address
         self.addLink(h2,router2,intfName2='r2-eth2',params2={ 'ip' : '10.0.2.20/24' })
 
-#	self.addLink(h3,router,intfName2='r0-eth3',params2={ 'ip' : '10.0.3.10/24' })
         
     
 
