@@ -1,7 +1,7 @@
 # my-work
 
 ## install quagga:
-unzip quagga-1.2.1.tar.gz and cd into it, then:
+first clone this repo using Git, then find and unzip quagga-1.2.1.tar.gz and cd into it, then:
 ```
 sudo apt update
 
