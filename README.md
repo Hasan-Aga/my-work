@@ -59,5 +59,5 @@ sudo cp libospf.* /lib
 ```
 
 ## part two: run the experiment
-to run the experiment, first copy the ```.conf``` files from inside the 'conf' of this repo directory to ```/usr/local/etc/``` then run the python script that is inside the 'advanced' directory.
+to run the experiment, first copy the ```.conf``` files from inside the 'conf' of this repo directory to ```/usr/local/etc/``` then run the python script that is inside the 'advanced' directory of this repo.
 
