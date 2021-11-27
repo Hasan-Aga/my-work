@@ -1,7 +1,7 @@
 # my-work
 
 ## install quagga:
-unzip quagga-1.2.1.tar.gz and cd into it, then:
+first clone this repo using Git, then find and unzip quagga-1.2.1.tar.gz (make sure that you grant yourself write permissions for the new folder) and cd into it, then:
 ```
 sudo apt update
 
@@ -53,9 +53,9 @@ sudo ospfd -d
 if you get an error, then run:
 ```
 cd /usr/local/lib
-cp libospf.* /lib
+sudo cp libospf.* /lib
 ```
 
 ## run the experiment
-clone this repo into the VM and run the python script that is inside the 'advanced' directory.
+run the python script that is inside the 'advanced' directory.
 
