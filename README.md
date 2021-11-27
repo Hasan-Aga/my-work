@@ -53,7 +53,7 @@ sudo ospfd -d
 if you get an error, then run:
 ```
 cd /usr/local/lib
-cp libospf.* /lib
+sudo cp libospf.* /lib
 ```
 
 ## run the experiment
