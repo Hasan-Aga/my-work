@@ -1,6 +1,8 @@
 # my-work
+This is a guide on how to create a simple topology inside Mininet, the first part guides you through installing Quagga which is a routing software suite, providing implementations of several routing protocols which we use to create routers for our topology, the second part of the guide contains instructions on how to run the Python script that will actually fire up Mininet and build the topology.
+note that you must be inside Mininet VM for the 2nd part to work.
 
-## install quagga:
+## part one: install quagga:
 first clone this repo using Git, then find and unzip quagga-1.2.1.tar.gz (make sure that you grant yourself write permissions for the new folder) and cd into it, then:
 ```
 sudo apt update
@@ -56,6 +58,6 @@ cd /usr/local/lib
 sudo cp libospf.* /lib
 ```
 
-## run the experiment
+## part two: run the experiment
 to run the experiment, first copy the ```.conf``` files from inside the 'conf' directory to ```/usr/local/etc/``` then run the python script that is inside the 'advanced' directory.
 
