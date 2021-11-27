@@ -61,10 +61,10 @@ def run():
     info( net[ 'r1' ].cmd( 'ifconfig' ) )
     info('R2 interfaces: \n')
     info( net[ 'r2' ].cmd( 'ifconfig' ) )
+
+
+
     info('starting zebra and ospfd service:\n')
-
-
-
     r1.cmd('zebra -f /usr/local/etc/r1zebra.conf -d -z ~/r1zebra.api -i ~/r1zebra.interface')
     r2.cmd('zebra -f /usr/local/etc/r2zebra.conf -d -z ~/r2zebra.api -i ~/r2zebra.interface')
     time.sleep(5) #time for zebra to create api socket
