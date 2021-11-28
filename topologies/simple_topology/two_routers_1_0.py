@@ -36,17 +36,17 @@ class NetworkTopo( Topo ):
         with open(file_path("/addressConfiguration.json"), "r") as addressFile:
             data = json.load(addressFile)
         routers = {}
-        for index,router in enumerate(data):
-            routers["r" + str(index+1)] = self.addNode( router, cls=LinuxRouter, ip=data[router]["interfaces"]["real"]["defaultIP"] )
+        for index,router in enumerate(data["routers"]):
+            routers["r" + str(index+1)] = self.addNode( router, cls=LinuxRouter, ip=data["routers"][router]["interfaces"]["real"]["defaultIP"] )
 
     
             
         h1 = self.addHost( 'h1', ip='10.0.1.100/24', defaultRoute='via 10.0.1.10') #define gateway
         h2 = self.addHost( 'h2', ip='10.0.2.100/24', defaultRoute='via 10.0.2.20')
 
-        self.addLink(router1,router2,intfName1='r1-eth1',intfName2='r2-eth1')
-        self.addLink(h1,router1,intfName2='r1-eth2',params2={ 'ip' : '10.0.1.10/24' })#params2 define the eth2 ip address
-        self.addLink(h2,router2,intfName2='r2-eth2',params2={ 'ip' : '10.0.2.20/24' })
+        self.addLink(routers["r1"],routers["r2"],intfName1='r1-eth1',intfName2='r2-eth1')
+        self.addLink(h1,routers["r1"],intfName2='r1-eth2',params2={ 'ip' : '10.0.1.10/24' })#params2 define the eth2 ip address
+        self.addLink(h2,routers["r2"],intfName2='r2-eth2',params2={ 'ip' : '10.0.2.20/24' })
 
         
     
