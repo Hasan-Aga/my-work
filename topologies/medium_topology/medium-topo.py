@@ -44,10 +44,6 @@ class NetworkTopo( Topo ):
 
         
     
-def addAliasToInterface(interface: str, addressWithMask: str):
-    # interface such as r1-eth1:0
-    # addressWithMask such as 10.0.3.11/24
-    return f'ifconfig {interface} {addressWithMask} \n'
 
 def run():
     "Test linux router"
