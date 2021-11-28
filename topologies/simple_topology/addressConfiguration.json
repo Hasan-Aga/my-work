@@ -1,0 +1,48 @@
+{
+    "routers": {
+        "r1": {
+            "interfaces": {
+                "real": {
+                    "defaultIP": "10.0.3.10/24",
+                    "r1-eth2": "10.0.1.10/24"
+                },
+                "aliases": {
+                    "r1-eth1:0": "10.0.3.11/24"
+                }
+            },
+            "links": {
+                "r1-eth2": "h1-eth0",
+                "r1-eth1": "r2-eth1"
+            }
+        },
+        "r2": {
+            "interfaces": {
+                "real": {
+                    "defaultIP": "10.0.3.20/24",
+                    "r2-eth2": "10.0.2.20/24"
+                },
+                "aliases": {
+                    "r2-eth1:0": "10.0.3.21/24"
+                }
+            },
+            "links": {
+                "r2-eth2": "h2-eth0",
+                "r2-eth1": "r1-eth1"
+            }
+        }
+    },
+    "hosts":{
+        "h1":{
+            "interfaces":{
+                "h1-eth0":"10.0.1.100"
+            },
+            "defaultRoute":"r1-eth2"
+        },
+        "h2":{
+            "interfaces":{
+                "h1-eth0":"10.0.2.100"
+            },
+            "defaultRoute":"r2-eth2"
+        }
+    }
+}
