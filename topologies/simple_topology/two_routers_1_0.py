@@ -43,7 +43,7 @@ class NetworkTopo( Topo ):
         self.addLink(h2,routers["r2"],intfName2='r2-eth2',params2={ 'ip' : '10.0.2.20/24' })
 
 def addLinkBwRouters(self, data: dict, routers: dict):
-    for index,firstInterface in enumerate(data["links"]):
+    for firstInterface in data["links"]:
         firstRouter = firstInterface.rpartition('-')[0]
         secondInterface = data["links"][firstInterface]
         secondRouter = secondInterface.rpartition('-')[0]
