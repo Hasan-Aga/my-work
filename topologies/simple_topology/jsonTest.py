@@ -15,7 +15,8 @@ def file_path(relative_path):
 with open(file_path("/addressConfiguration.json"), "r") as addressFile:
             data = json.load(addressFile)
 
-
+routers = {}
 for index,router in enumerate(data):
-    print("r"+str(index+1), data[router]["interfaces"]["real"]["defaultIP"])
+    routers["router" + str(index+1)] = data[router]["interfaces"]["real"]["defaultIP"]
 
+print(routers)

@@ -35,9 +35,9 @@ class NetworkTopo( Topo ):
 
         with open(file_path("/addressConfiguration.json"), "r") as addressFile:
             data = json.load(addressFile)
-        # TODO put routers in dict
+        routers = {}
         for index,router in enumerate(data):
-            router1 = self.addNode( router, cls=LinuxRouter, ip=data[router]["interfaces"]["real"]["defaultIP"] )
+            routers["r" + str(index+1)] = self.addNode( router, cls=LinuxRouter, ip=data[router]["interfaces"]["real"]["defaultIP"] )
 
     
             
