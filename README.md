@@ -59,5 +59,5 @@ sudo cp libospf.* /lib
 ```
 
 ## part two: run the experiment
-to run the experiment, first copy the ```.conf``` files from inside the 'conf' directory of this repo to ```/usr/local/etc/``` then run the python script that is inside the 'topologies' directory of this repo.
+to run the experiment, first copy the ```.conf``` files from inside the 'conf' directory of this repo to ```/usr/local/etc/``` then run the python scripts that is inside the 'topologies' sub-directories of this repo.
 
