@@ -54,11 +54,8 @@ def addAliasToInterface(interface: str, addressWithMask: str):
 def file_path(relative_path):
     # get correct absolute path for given file
     dir = os.path.dirname(os.path.abspath(__file__))
-    print(dir)
     split_path = relative_path.split("/")
-    print(split_path)
     new_path = os.path.join(dir, *split_path)
-    print(new_path)
     return new_path
 
 def run():
