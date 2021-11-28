@@ -36,8 +36,8 @@ class NetworkTopo( Topo ):
 
     
             
-        h1 = self.addHost( 'h1', ip='10.0.1.100/24', defaultRoute='via 10.0.1.10') #define gateway
-        h2 = self.addHost( 'h2', ip='10.0.2.100/24', defaultRoute='via 10.0.2.20')
+        # h1 = self.addHost( 'h1', ip='10.0.1.100/24', defaultRoute='via 10.0.1.10') #define gateway
+        # h2 = self.addHost( 'h2', ip='10.0.2.100/24', defaultRoute='via 10.0.2.20')
 
         self.addLink(routers["r1"],routers["r2"],intfName1='r1-eth1',intfName2='r2-eth1')
         self.addLink(h1,routers["r1"],intfName2='r1-eth2',params2={ 'ip' : '10.0.1.10/24' })#params2 define the eth2 ip address
@@ -45,7 +45,7 @@ class NetworkTopo( Topo ):
 def addHostsToGraph(self, data:dict):
     hosts = {}
     for index,host in enumerate(data["hosts"]):
-        hosts["h" + str(index+1)] = self.addHost( host, ip=data["hosts"][host]["interfaces"]["ip"], defaultRoute=f'via {data["hosts"][host]["interfaces"]["defaultRoute"]}')
+        hosts["h" + str(index+1)] = self.addHost( host, ip=data["hosts"][host]["interfaces"]["ip"], defaultRoute=f'via {data["hosts"][host]["defaultRoute"]}')
     return hosts
 
 def getConfigFromJson(path):
