@@ -45,8 +45,8 @@ class NetworkTopo( Topo ):
 def addHostsToGraph(self, data:dict):
     hosts = {}
     for index,host in enumerate(data["hosts"]):
-        hosts["r" + str(index+1)] = self.addNode( host, cls=LinuxRouter, ip=data["hosts"][host]["interfaces"]["defaultIP"] )
-    return routers
+        hosts["h" + str(index+1)] = self.addHost( host, ip=data["hosts"][host]["interfaces"]["ip"], defaultRoute=f'via {data["hosts"][host]["interfaces"]["defaultRoute"]}')
+    return hosts
 
 def getConfigFromJson(path):
     with open(path, "r") as addressFile:
