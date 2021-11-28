@@ -95,7 +95,7 @@ def run():
         time.sleep(0.5)
         device.cmd(f'ospfd -f /usr/local/etc/{r}ospfd.conf -d -z ~/{r}zebra.api -i ~/{r}ospfd.interface')
     
-
+# TODO CONFIGURE ALIASING and generation of router conf files
     # info('configuring ip aliasing \n')
     # r1.cmd(addAliasToInterface('r1-eth1:0', '10.0.3.11/24'))
     # r1.cmd(addAliasToInterface('r2-eth1:0', '10.0.3.21/24'))
