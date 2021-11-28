@@ -46,7 +46,9 @@ def addHostsToGraph(self, data:dict):
     hosts = {}
     for index,host in enumerate(data["hosts"]):
         interface = data["hosts"][host]["defaultRoute"]
-        hosts["h" + str(index+1)] = self.addHost( host, ip=data["hosts"][host]["interfaces"]["ip"], defaultRoute=f'via {data["routers"][interface[:2]]["interfaces"]["real"][interface]}')
+        default_route = data["routers"][interface[:2]]["interfaces"]["real"][interface]
+        print(default_route)
+        hosts["h" + str(index+1)] = self.addHost( host, ip=data["hosts"][host]["interfaces"]["ip"], defaultRoute=f'via {default_route}')
     return hosts
 
 def getConfigFromJson(path):
