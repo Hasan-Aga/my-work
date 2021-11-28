@@ -16,4 +16,9 @@ routers = {}
 for index,router in enumerate(data["routers"]):
     routers["router" + str(index+1)] = data["routers"][router]["interfaces"]["real"]["defaultIP"]
 
-print(routers)
+for index,firstInterface in enumerate(data["links"]):
+    firstRouter = firstInterface.rpartition('-')[0]
+    secondInterface = data["links"][firstInterface]
+    secondRouter = secondInterface.rpartition('-')[0]
+    print(firstRouter, firstInterface, secondInterface, secondRouter)
+

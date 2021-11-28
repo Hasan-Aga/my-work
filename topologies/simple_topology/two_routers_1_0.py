@@ -38,9 +38,17 @@ class NetworkTopo( Topo ):
 
         self.addLink(routers["r1"],routers["r2"],intfName1='r1-eth1',intfName2='r2-eth1')
 
-        
+
         self.addLink(h1,routers["r1"],intfName2='r1-eth2',params2={ 'ip' : '10.0.1.10/24' })#params2 define the eth2 ip address
         self.addLink(h2,routers["r2"],intfName2='r2-eth2',params2={ 'ip' : '10.0.2.20/24' })
+
+def addLinkBwRouters(self, data: dict, routers: dict):
+    for index,firstInterface in enumerate(data["links"]):
+        firstRouter = firstInterface.rpartition('-')[0]
+        secondInterface = data["links"][firstInterface]
+        secondRouter = secondInterface.rpartition('-')[0]
+        self.addLink(firstRouter,secondRouter,intfName1=firstInterface,intfName2=secondInterface)
+
 
 def getConfigFromJson(path):
     with open(path, "r") as addressFile:
