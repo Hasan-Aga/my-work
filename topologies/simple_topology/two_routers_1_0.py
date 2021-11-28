@@ -43,9 +43,9 @@ class NetworkTopo( Topo ):
         self.addLink(hosts["h1"],routers["r1"],intfName2='r1-eth2',params2={ 'ip' : '10.0.1.10/24' })#params2 define the eth2 ip address
         self.addLink(hosts["h2"],routers["r2"],intfName2='r2-eth2',params2={ 'ip' : '10.0.2.20/24' })
 def addHostsToGraph(self, data:dict):
-    interface = data["hosts"][host]["defaultRoute"]
     hosts = {}
     for index,host in enumerate(data["hosts"]):
+        interface = data["hosts"][host]["defaultRoute"]
         hosts["h" + str(index+1)] = self.addHost( host, ip=data["hosts"][host]["interfaces"]["ip"], defaultRoute=f'via {data["routers"][interface[:2]]["interfaces"]["real"][interface]}')
     return hosts
 
