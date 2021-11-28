@@ -77,7 +77,7 @@ def file_path(relative_path):
 def getRouterNames(data:dict):
     routers = []
     for index,router in enumerate(data["routers"]):
-        routers[index] = router
+        routers.append(router)
     return routers
 
 def run():
