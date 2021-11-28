@@ -16,4 +16,10 @@ routers = {}
 for index,router in enumerate(data["routers"]):
     routers["router" + str(index+1)] = data["routers"][router]["interfaces"]["real"]["defaultIP"]
 
-print(routers)
+hosts = {}
+for index,host in enumerate(data["hosts"]):
+    interface = data["hosts"][host]["defaultRoute"]
+    print("interface=" + interface[:2])
+    hosts["h" + str(index+1)] = f'via {data["routers"][interface[:2]]["interfaces"]["real"][interface]}'
+
+print(hosts)
