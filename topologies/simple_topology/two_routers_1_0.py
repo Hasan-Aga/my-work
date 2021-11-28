@@ -59,9 +59,6 @@ def run():
     r2=net.getNodeByName('r2')
 
     info('configuring ip aliasing \n')
-    # r1.cmd('ifconfig r1-eth1:0 10.0.3.11/24 \n')
-    # r2.cmd('ifconfig r2-eth1:0 10.0.3.21/24 \n')
-    
     r1.cmd(addAliasToInterface('r1-eth1:0', '10.0.3.11/24'))
     r1.cmd(addAliasToInterface('r2-eth1:0', '10.0.3.21/24'))
 
