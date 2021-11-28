@@ -9,11 +9,8 @@
                 "aliases": {
                     "r1-eth1:0": "10.0.3.11/24"
                 }
-            },
-            "links": {
-                "r1-eth2": "h1-eth0",
-                "r1-eth1": "r2-eth1"
             }
+
         },
         "r2": {
             "interfaces": {
@@ -24,10 +21,6 @@
                 "aliases": {
                     "r2-eth1:0": "10.0.3.21/24"
                 }
-            },
-            "links": {
-                "r2-eth2": "h2-eth0",
-                "r2-eth1": "r1-eth1"
             }
         }
     },
@@ -44,5 +37,11 @@
             },
             "defaultRoute":"r2-eth2"
         }
+    },
+    "links":{
+        "r1-eth2": "h1-eth0",
+        "r1-eth1": "r2-eth1",
+        "r2-eth2": "h2-eth0",
+        "r2-eth1": "r1-eth1"
     }
 }
