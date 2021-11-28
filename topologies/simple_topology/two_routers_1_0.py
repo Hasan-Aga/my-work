@@ -31,7 +31,7 @@ class NetworkTopo( Topo ):
         with open(file_path("/addressConfiguration.json"), "r") as addressFile:
             data = json.load(addressFile)
         routers = {}
-        routers = addRoutersToGraph(data)
+        routers = addRoutersToGraph(self,data)
         # for index,router in enumerate(data["routers"]):
         #     routers["r" + str(index+1)] = self.addNode( router, cls=LinuxRouter, ip=data["routers"][router]["interfaces"]["real"]["defaultIP"] )
 
