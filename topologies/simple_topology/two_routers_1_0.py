@@ -7,6 +7,7 @@ from mininet.log import setLogLevel, info
 from mininet.cli import CLI
 import time
 import os
+import json
 
 class LinuxRouter( Node ):
     "A Node with IP forwarding enabled."
@@ -27,11 +28,16 @@ class NetworkTopo( Topo ):
 
     def build( self, **_opts ):
 
-        defaultIP1 = '10.0.3.10/24'  # IP address for r0-eth1
-        defaultIP2 = '10.0.3.20/24' 
-        router1 = self.addNode( 'r1', cls=LinuxRouter, ip=defaultIP1 )
-        router2 = self.addNode( 'r2', cls=LinuxRouter, ip=defaultIP2 )
-    
+        # defaultIP1 = '10.0.3.10/24'  # IP address for r0-eth1
+        # defaultIP2 = '10.0.3.20/24' 
+        # router1 = self.addNode( 'r1', cls=LinuxRouter, ip=defaultIP1 )
+        # router2 = self.addNode( 'r2', cls=LinuxRouter, ip=defaultIP2 )
+
+        with open(file_path("/addressConfiguration.json"), "r") as addressFile:
+            data = json.load(addressFile)
+        # TODO put routers in dict
+        for index,router in enumerate(data):
+            router1 = self.addNode( router, cls=LinuxRouter, ip=data[router]["interfaces"]["real"]["defaultIP"] )
 
     
             
@@ -48,6 +54,17 @@ def addAliasToInterface(interface: str, addressWithMask: str):
     # interface such as r1-eth1:0
     # addressWithMask such as 10.0.3.11/24
     return f'ifconfig {interface} {addressWithMask} \n'
+
+
+def file_path(relative_path):
+    # get correct absolute path for given file
+    dir = os.path.dirname(os.path.abspath(__file__))
+    print(dir)
+    split_path = relative_path.split("/")
+    print(split_path)
+    new_path = os.path.join(dir, *split_path)
+    print(new_path)
+    return new_path
 
 def run():
     "Test linux router"
