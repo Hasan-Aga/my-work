@@ -31,8 +31,9 @@ class NetworkTopo( Topo ):
         with open(file_path("/addressConfiguration.json"), "r") as addressFile:
             data = json.load(addressFile)
         routers = {}
-        for index,router in enumerate(data["routers"]):
-            routers["r" + str(index+1)] = self.addNode( router, cls=LinuxRouter, ip=data["routers"][router]["interfaces"]["real"]["defaultIP"] )
+        routers = addRoutersToGraph(data)
+        # for index,router in enumerate(data["routers"]):
+        #     routers["r" + str(index+1)] = self.addNode( router, cls=LinuxRouter, ip=data["routers"][router]["interfaces"]["real"]["defaultIP"] )
 
     
             
@@ -44,6 +45,12 @@ class NetworkTopo( Topo ):
         self.addLink(h2,routers["r2"],intfName2='r2-eth2',params2={ 'ip' : '10.0.2.20/24' })
 
         
+def addRoutersToGraph(self, data: dict):
+    routers = {}
+    for index,router in enumerate(data["routers"]):
+        routers["r" + str(index+1)] = self.addNode( router, cls=LinuxRouter, ip=data["routers"][router]["interfaces"]["real"]["defaultIP"] )
+    return routers
+
     
 def addAliasToInterface(interface: str, addressWithMask: str):
     # interface such as r1-eth1:0
