@@ -20,5 +20,5 @@ for index,firstInterface in enumerate(data["links"]):
     firstRouter = firstInterface.rpartition('-')[0]
     secondInterface = data["links"][firstInterface]
     secondRouter = secondInterface.rpartition('-')[0]
-    print(firstRouter, firstInterface, secondInterface, secondRouter)
+    print(firstRouter, secondRouter, firstInterface, secondInterface)
 

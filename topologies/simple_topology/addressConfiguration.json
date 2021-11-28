@@ -39,7 +39,6 @@
         }
     },
     "links":{
-        "r1-eth1": "r2-eth1",
-        "r2-eth1": "r1-eth1"
-    }
+        "r1-eth1": "r2-eth1"
+        }
 }
