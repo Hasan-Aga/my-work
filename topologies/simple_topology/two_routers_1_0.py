@@ -74,32 +74,45 @@ def file_path(relative_path):
     new_path = os.path.join(dir, *split_path)
     return new_path
 
+def getRouterNames(data:dict):
+    routers = []
+    for index,router in enumerate(data["routers"]):
+        routers[index] = router
+    return routers
+
 def run():
     "Test linux router"
     topo = NetworkTopo()
     net = Mininet(controller = None, topo=topo )  # controller is used by s1-s3
     net.start()
 
-    r1=net.getNodeByName('r1')
-    r2=net.getNodeByName('r2')
+    data = getConfigFromJson(file_path("/addressConfiguration.json"))
+    routers = getRouterNames(data)
+    for r in routers:
+        device=net.getNodeByName(r)
+        device.cmd(f'zebra -f /usr/local/etc/{r}zebra.conf -d -z ~/{r}zebra.api -i ~/{r}zebra.interface')
+        info( net[ r ].cmd( 'ifconfig' ) )
+        time.sleep(0.5)
+        device.cmd(f'ospfd -f /usr/local/etc/{r}ospfd.conf -d -z ~/{r}zebra.api -i ~/{r}ospfd.interface')
+    
 
-    info('configuring ip aliasing \n')
-    r1.cmd(addAliasToInterface('r1-eth1:0', '10.0.3.11/24'))
-    r1.cmd(addAliasToInterface('r2-eth1:0', '10.0.3.21/24'))
+    # info('configuring ip aliasing \n')
+    # r1.cmd(addAliasToInterface('r1-eth1:0', '10.0.3.11/24'))
+    # r1.cmd(addAliasToInterface('r2-eth1:0', '10.0.3.21/24'))
 
-    info('R1 interfaces: \n')
-    info( net[ 'r1' ].cmd( 'ifconfig' ) )
-    info('R2 interfaces: \n')
-    info( net[ 'r2' ].cmd( 'ifconfig' ) )
+    # info('R1 interfaces: \n')
+    # info( net[ 'r1' ].cmd( 'ifconfig' ) )
+    # info('R2 interfaces: \n')
+    # info( net[ 'r2' ].cmd( 'ifconfig' ) )
 
 
 
-    info('starting zebra and ospfd service:\n')
-    r1.cmd('zebra -f /usr/local/etc/r1zebra.conf -d -z ~/r1zebra.api -i ~/r1zebra.interface')
-    r2.cmd('zebra -f /usr/local/etc/r2zebra.conf -d -z ~/r2zebra.api -i ~/r2zebra.interface')
-    time.sleep(5) #time for zebra to create api socket
-    r1.cmd('ospfd -f /usr/local/etc/r1ospfd.conf -d -z ~/r1zebra.api -i ~/r1ospfd.interface')
-    r2.cmd('ospfd -f /usr/local/etc/r2ospfd.conf -d -z ~/r2zebra.api -i ~/r2ospfd.interface')
+    # info('starting zebra and ospfd service:\n')
+    # r1.cmd('zebra -f /usr/local/etc/r1zebra.conf -d -z ~/r1zebra.api -i ~/r1zebra.interface')
+    # r2.cmd('zebra -f /usr/local/etc/r2zebra.conf -d -z ~/r2zebra.api -i ~/r2zebra.interface')
+    # time.sleep(5) #time for zebra to create api socket
+    # r1.cmd('ospfd -f /usr/local/etc/r1ospfd.conf -d -z ~/r1zebra.api -i ~/r1ospfd.interface')
+    # r2.cmd('ospfd -f /usr/local/etc/r2ospfd.conf -d -z ~/r2zebra.api -i ~/r2ospfd.interface')
     
     
     CLI( net )
