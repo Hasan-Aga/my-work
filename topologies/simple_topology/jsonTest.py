@@ -35,10 +35,19 @@ for index,firstInterface in enumerate(data["links"]):
 #     with open(file_path(f'/conf/{router}zebra.conf'), 'w+') as filehandle:
 #         filehandle.write(zebraTemplate)
 
+def getFirstKeyOfDict(dataDict:dict):
+    return list(dataDict.keys())[0]
+def getRouterFirstInterface(data:dict, router:str, withWildCard:bool):
+    interface = data["routers"][router]["interfaces"]["real"]
+    return interface[getFirstKeyOfDict(interface)] if withWildCard else removeWildCard(interface[getFirstKeyOfDict(interface)])
+
+def removeWildCard(ip:str):
+    return ip[:-3]
 
 with open(file_path("/config_templates/ospf_template.conf"), "r") as template:
     zebraTemplate = string.Template(template.read())
-final = zebraTemplate.safe_substitute(id=)
+interface = data["routers"]["r1"]["interfaces"]["real"]
+final = zebraTemplate.safe_substitute(id=getRouterFirstInterface(data,"r1",False))
 print(final)
 routers = []
 # for index,router in enumerate(data["routers"]):
