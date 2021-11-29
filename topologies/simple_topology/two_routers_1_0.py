@@ -129,9 +129,10 @@ def zeroLastDigit(ip:str):
 def generateOspfConfFiles(data:dict):
     ospfTemplate = getTemplateOf("ospf_template.conf")
     routers = getRouterNames(data)
+    networkCommand = ""
     for router in routers:
         for address in getAllInterfacesOfRouter(data, router, True):
-            networkCommand = f"network {zeroLastDigit(address)}/24 area 0"
+            networkCommand += f"network {zeroLastDigit(address)}/24 area 0\n  "
         confFile = ospfTemplate.safe_substitute(
             id = getRouterFirstInterface(data, router, False),
             network = networkCommand)

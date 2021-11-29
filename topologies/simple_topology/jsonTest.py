@@ -58,9 +58,10 @@ def getAllInterfacesOfRouter(data:dict, router:str, withWildCard:bool):
 print(getAllInterfacesOfRouter(data, "r1", True))
 with open(file_path("/config_templates/ospf_template.conf"), "r") as template:
     zebraTemplate = string.Template(template.read())
+    networkCommand = ""
 for address in getAllInterfacesOfRouter(data, "r1", False):
     print("!!!!!" + zeroLastDigit(address))
-    networkCommand = f"network {zeroLastDigit(address)}/24 area 0"
+    networkCommand += f"network {zeroLastDigit(address)}/24 area 0\n  "
     confFile = zebraTemplate.safe_substitute(
             id = getRouterFirstInterface(data, router, False),
             network = networkCommand)
