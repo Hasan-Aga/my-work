@@ -8,6 +8,7 @@ from mininet.cli import CLI
 import time
 import os
 import json
+import string
 
 class LinuxRouter( Node ):
     "A Node with IP forwarding enabled."
@@ -96,8 +97,8 @@ def loadOspfForAllRouters(net:Mininet, data:dict):
         device.cmd(f'ospfd -f /usr/local/etc/{r}ospfd.conf -d -z ~/{r}zebra.api -i ~/{r}ospfd.interface')
 
 def getTemplateOf(templateName:str):
-    with open(file_path(f"/config_templates/{templateName}"), "r") as template:
-        template = template.read()
+    with open(file_path(f"/config_templates/{templateName}"), "r") as file:
+        template = string.Template(file.read())
     return template
 
 def generateZebraConfFIles(data:dict):
