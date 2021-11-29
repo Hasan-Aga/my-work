@@ -49,18 +49,22 @@ def zeroLastDigit(ip:str):
 
 def getAllInterfacesOfRouter(data:dict, router:str, withWildCard:bool):
     interface = data["routers"][router]["interfaces"]["real"]
+    addressList = []
     for i in list(interface.keys()):
-        print(interface[i])
-
+        addressList.append(interface[i]) if withWildCard else addressList.append(removeWildCard(interface[i]))
+    return addressList
 
 print(getAllInterfacesOfRouter(data, "r1", True))
-# print("----", zeroLastDigit("10.0.3.1"))
-# with open(file_path("/config_templates/ospf_template.conf"), "r") as template:
-#     zebraTemplate = string.Template(template.read())
-# interface = data["routers"]["r1"]["interfaces"]["real"]
-# final = zebraTemplate.safe_substitute(id=getRouterFirstInterface(data,"r1",False))
-# print(final)
-# routers = []
+with open(file_path("/config_templates/ospf_template.conf"), "r") as template:
+    zebraTemplate = string.Template(template.read())
+for address in getAllInterfacesOfRouter(data, "r1", False):
+    print("!!!!!" + zeroLastDigit(address))
+    networkCommand = f"network {zeroLastDigit(address)}/24 area 0"
+    confFile = zebraTemplate.safe_substitute(
+            id = getRouterFirstInterface(data, router, False),
+            network = networkCommand)
+print(confFile)
+routers = []
 
 # for index,router in enumerate(data["routers"]):
 #     routers.append(router)
