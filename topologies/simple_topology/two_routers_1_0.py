@@ -150,6 +150,7 @@ def run():
     
     data = getConfigFromJson(file_path("/addressConfiguration.json"))
     generateZebraConfFIles(data)
+    generateOspfConfFiles(data)
     loadZebraForAllRouters(net, data)
     loadOspfForAllRouters(net, data)
 
