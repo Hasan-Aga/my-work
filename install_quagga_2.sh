@@ -1,8 +1,8 @@
 #!/bin/sh
 cd /home
-sudo git clone https://github.com/Quagga/quagga.git
+tar -xf quagga-1.2.1.tar.gz
+cd quagga-1.2.1/
 
-cd quagga/
 sudo apt update
 
 sudo apt install gawk
