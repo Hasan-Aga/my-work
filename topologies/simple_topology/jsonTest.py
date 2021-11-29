@@ -44,16 +44,28 @@ def getRouterFirstInterface(data:dict, router:str, withWildCard:bool):
 def removeWildCard(ip:str):
     return ip[:-3]
 
-with open(file_path("/config_templates/ospf_template.conf"), "r") as template:
-    zebraTemplate = string.Template(template.read())
-interface = data["routers"]["r1"]["interfaces"]["real"]
-final = zebraTemplate.safe_substitute(id=getRouterFirstInterface(data,"r1",False))
-print(final)
-routers = []
+def zeroLastDigit(ip:str):
+    return ip[:-1] + "0"
+
+def getAllInterfacesOfRouter(data:dict, router:str, withWildCard:bool):
+    interface = data["routers"][router]["interfaces"]["real"]
+    for i in list(interface.keys()):
+        print(interface[i])
+
+
+print(getAllInterfacesOfRouter(data, "r1", True))
+# print("----", zeroLastDigit("10.0.3.1"))
+# with open(file_path("/config_templates/ospf_template.conf"), "r") as template:
+#     zebraTemplate = string.Template(template.read())
+# interface = data["routers"]["r1"]["interfaces"]["real"]
+# final = zebraTemplate.safe_substitute(id=getRouterFirstInterface(data,"r1",False))
+# print(final)
+# routers = []
+
 # for index,router in enumerate(data["routers"]):
 #     routers.append(router)
 #     with open(file_path(f'/conf/{router}zebra.conf'), 'w+') as filehandle:
 #         filehandle.write(zebraTemplate)
 
 
-print(routers)
+# print(routers)

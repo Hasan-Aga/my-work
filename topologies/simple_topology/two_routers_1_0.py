@@ -112,14 +112,24 @@ def getRouterFirstInterface(data:dict, router:str, withWildCard:bool):
     interface = data["routers"][router]["interfaces"]["real"]
     return interface[getFirstKeyOfDict(interface)] if withWildCard else removeWildCard(interface[getFirstKeyOfDict(interface)])
 
+def getAllInterfacesOfRouter(data:dict, router:str, withWildCard:bool):
+    interface = data["routers"][router]["interfaces"]["real"]
+    for i in list(interface.keys()):
+        print(interface[i])
+
 def removeWildCard(ip:str):
     return ip[:-3]
+
+def zeroLastDigit(ip:str):
+    return ip[:-1] + "0"
 
 def generateOspfConfFiles(data:dict):
     ospfTemplate = getTemplateOf("ospf_template.conf")
     routers = getRouterNames(data)
     for router in routers:
+        networkCommand = f"network {}/24 area 0"
         confFile = ospfTemplate.safe_substitute(id = getRouterFirstInterface(data, router, False))
+#TODO fill the second place holder:
 
 def run():
     "Test linux router"
