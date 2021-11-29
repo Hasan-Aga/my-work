@@ -108,12 +108,18 @@ def generateZebraConfFIles(data:dict):
         with open(file_path(f'/conf/{router}zebra.conf'), 'w+') as filehandle:
             filehandle.write(zebraTemplate)
 
+def getRouterFirstInterface(data:dict, router:str, withWildCard:bool):
+    interface = data["routers"][router]["interfaces"]["real"]
+    return interface[getFirstKeyOfDict(interface)] if withWildCard else removeWildCard(interface[getFirstKeyOfDict(interface)])
+
+def removeWildCard(ip:str):
+    return ip[:-3]
+
 def generateOspfConfFiles(data:dict):
     ospfTemplate = getTemplateOf("ospf_template.conf")
     routers = getRouterNames(data)
     for router in routers:
-        interface = data["routers"][router]["interfaces"]["real"]
-        confFile = ospfTemplate.safe_substitute(id = )
+        confFile = ospfTemplate.safe_substitute(id = getRouterFirstInterface(data, router, False))
 
 def run():
     "Test linux router"
