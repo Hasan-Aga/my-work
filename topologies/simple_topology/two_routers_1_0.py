@@ -127,10 +127,10 @@ def zeroLastDigit(ip:str):
     return ip[:index+1] + "0"
 
 def generateOspfConfFiles(data:dict):
-    ospfTemplate = getTemplateOf("ospf_template.conf")
     routers = getRouterNames(data)
     networkCommand = ""
     for router in routers:
+        ospfTemplate = getTemplateOf("ospf_template.conf")
         for address in getAllInterfacesOfRouter(data, router, True):
             networkCommand += f"network {zeroLastDigit(address)}/24 area 0\n  "
         confFile = ospfTemplate.safe_substitute(
@@ -139,7 +139,8 @@ def generateOspfConfFiles(data:dict):
         with open(file_path(f'/conf/{router}ospf.conf'), 'w+') as filehandle:
             filehandle.write(confFile)
         
-#TODO on the VM, remove old conf and use new
+#TODO fix repeating lines 4 times in r2ospf.conf!!!
+#TODO on the VM, remove old conf and use new ones
 
 def run():
     "Test linux router"
