@@ -96,7 +96,7 @@ def run():
     "Test linux router"
     topo = NetworkTopo()
     net = Mininet(controller = None, topo=topo )  # controller is used by s1-s3
-    info("type of net = " + type(net) + " \n")
+    info("type of net = " + str(type(net)) + " \n")
     net.start()
     data = getConfigFromJson(file_path("/addressConfiguration.json"))
     routers = getRouterNames(data)
