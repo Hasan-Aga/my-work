@@ -80,19 +80,26 @@ def getRouterNames(data:dict):
         routers.append(router)
     return routers
 
+def loadZebraForAllRouters(net, data:dict):
+    routers = getRouterNames(data)
+    for r in routers:
+        device=net.getNodeByName(r)
+        device.cmd(f'zebra -f /usr/local/etc/{r}zebra.conf -d -z ~/{r}zebra.api -i ~/{r}zebra.interface')
+
 def run():
     "Test linux router"
     topo = NetworkTopo()
     net = Mininet(controller = None, topo=topo )  # controller is used by s1-s3
     net.start()
-
+    info(type(net))
     data = getConfigFromJson(file_path("/addressConfiguration.json"))
-    routers = getRouterNames(data)
+    routers = getRouterNames(net, data)
+    loadZebraForAllRouters(net, data)
+    time.sleep(0.5)
     for r in routers:
         device=net.getNodeByName(r)
-        device.cmd(f'zebra -f /usr/local/etc/{r}zebra.conf -d -z ~/{r}zebra.api -i ~/{r}zebra.interface')
+        # device.cmd(f'zebra -f /usr/local/etc/{r}zebra.conf -d -z ~/{r}zebra.api -i ~/{r}zebra.interface')
         info( net[ r ].cmd( 'ifconfig' ) )
-        time.sleep(0.5)
         device.cmd(f'ospfd -f /usr/local/etc/{r}ospfd.conf -d -z ~/{r}zebra.api -i ~/{r}ospfd.interface')
     
 # TODO CONFIGURE ALIASING and generation of router conf files
