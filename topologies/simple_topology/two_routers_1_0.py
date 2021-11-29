@@ -99,10 +99,8 @@ def run():
     # info("type of net = " + str(type(net)) + " \n")
     net.start()
     data = getConfigFromJson(file_path("/addressConfiguration.json"))
-    routers = getRouterNames(data)
     loadZebraForAllRouters(net, data)
     loadOspfForAllRouters(net, data)
-    time.sleep(0.5)
 
     
 # TODO CONFIGURE ALIASING and generation of router conf files
