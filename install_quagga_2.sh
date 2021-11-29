@@ -27,4 +27,3 @@ sudo ./configure  --enable-vtysh --enable-user=root --enable-group=root --enable
 
 sudo make install
 
-spd-say done
