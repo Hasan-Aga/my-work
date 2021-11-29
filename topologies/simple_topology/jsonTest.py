@@ -24,10 +24,15 @@ for index,firstInterface in enumerate(data["links"]):
     secondInterface = data["links"][firstInterface]
     secondRouter = secondInterface.rpartition('-')[0]
 
-path = file_path("../../config_templates")
-print(os.listdir(path))
+
+with open(file_path("/config_templates/zebra_template.conf"), "r") as template:
+    zebraTemplate = template.read()
+print(zebraTemplate)
 routers = []
 for index,router in enumerate(data["routers"]):
     routers.append(router)
+    filehandle = open(file_path(f'/conf/{router}zebra.conf'), 'w+')
+    filehandle.write(zebraTemplate)
+    filehandle.close()
 
 print(routers)
