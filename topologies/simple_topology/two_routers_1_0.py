@@ -100,7 +100,7 @@ def run():
     data = getConfigFromJson(file_path("/addressConfiguration.json"))
     routers = getRouterNames(data)
     loadZebraForAllRouters(net, data)
-    loadOspfForAllRouters(net, dict)
+    loadOspfForAllRouters(net, data)
     time.sleep(0.5)
     for r in routers:
         device=net.getNodeByName(r)
