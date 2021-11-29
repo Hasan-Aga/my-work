@@ -99,11 +99,13 @@ def getTemplateOf(templateName:str):
     with open(file_path(f"/config_templates/{templateName}"), "r") as template:
         template = template.read()
     return template
-    
+
 def generateZebraConfFIles(data:dict):
     zebraTemplate = getTemplateOf("zebra_template.conf")
     routers = getRouterNames(data)
-    # for r in routers:
+    for r in routers:
+        with open(file_path(f'/conf/{r}zebra.conf'), 'w+') as filehandle:
+            filehandle.write(zebraTemplate)
 
 def run():
     "Test linux router"
@@ -111,7 +113,9 @@ def run():
     net = Mininet(controller = None, topo=topo )  # controller is used by s1-s3
     # info("type of net = " + str(type(net)) + " \n")
     net.start()
+    
     data = getConfigFromJson(file_path("/addressConfiguration.json"))
+    generateZebraConfFIles(data)
     loadZebraForAllRouters(net, data)
     loadOspfForAllRouters(net, data)
 

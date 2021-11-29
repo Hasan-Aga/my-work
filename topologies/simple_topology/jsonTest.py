@@ -31,8 +31,8 @@ print(zebraTemplate)
 routers = []
 for index,router in enumerate(data["routers"]):
     routers.append(router)
-    filehandle = open(file_path(f'/conf/{router}zebra.conf'), 'w+')
-    filehandle.write(zebraTemplate)
-    filehandle.close()
+    with open(file_path(f'/conf/{router}zebra.conf'), 'w+') as filehandle:
+        filehandle.write(zebraTemplate)
+
 
 print(routers)
