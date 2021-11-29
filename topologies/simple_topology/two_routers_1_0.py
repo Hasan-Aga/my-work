@@ -123,7 +123,8 @@ def removeWildCard(ip:str):
     return ip[:-3]
 
 def zeroLastDigit(ip:str):
-    return ip[:-1] + "0"
+    index = ip.rindex(".")
+    return ip[:index+1] + "0"
 
 def generateOspfConfFiles(data:dict):
     ospfTemplate = getTemplateOf("ospf_template.conf")

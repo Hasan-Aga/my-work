@@ -45,7 +45,8 @@ def removeWildCard(ip:str):
     return ip[:-3]
 
 def zeroLastDigit(ip:str):
-    return ip[:-1] + "0"
+    index = ip.rindex(".")
+    return ip[:index+1] + "0"
 
 def getAllInterfacesOfRouter(data:dict, router:str, withWildCard:bool):
     interface = data["routers"][router]["interfaces"]["real"]
