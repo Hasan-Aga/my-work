@@ -136,8 +136,10 @@ def generateOspfConfFiles(data:dict):
         confFile = ospfTemplate.safe_substitute(
             id = getRouterFirstInterface(data, router, False),
             network = networkCommand)
+        with open(file_path(f'/conf/{router}ospf.conf'), 'w+') as filehandle:
+            filehandle.write(confFile)
         
-#TODO fill the second place holder:
+#TODO on the VM, remove old conf and use new
 
 def run():
     "Test linux router"
