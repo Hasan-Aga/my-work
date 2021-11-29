@@ -93,7 +93,7 @@ def run():
     net.start()
     info(type(net))
     data = getConfigFromJson(file_path("/addressConfiguration.json"))
-    routers = getRouterNames(net, data)
+    routers = getRouterNames(data)
     loadZebraForAllRouters(net, data)
     time.sleep(0.5)
     for r in routers:
