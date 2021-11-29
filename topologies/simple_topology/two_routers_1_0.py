@@ -104,9 +104,16 @@ def getTemplateOf(templateName:str):
 def generateZebraConfFIles(data:dict):
     zebraTemplate = getTemplateOf("zebra_template.conf").safe_substitute()
     routers = getRouterNames(data)
-    for r in routers:
-        with open(file_path(f'/conf/{r}zebra.conf'), 'w+') as filehandle:
+    for router in routers:
+        with open(file_path(f'/conf/{router}zebra.conf'), 'w+') as filehandle:
             filehandle.write(zebraTemplate)
+
+def generateOspfConfFiles(data:dict):
+    ospfTemplate = getTemplateOf("ospf_template.conf")
+    routers = getRouterNames(data)
+    for router in routers:
+        interface = data["routers"][router]["interfaces"]["real"]
+        confFile = ospfTemplate.safe_substitute(id = )
 
 def run():
     "Test linux router"
