@@ -38,7 +38,7 @@ for index,firstInterface in enumerate(data["links"]):
 
 with open(file_path("/config_templates/ospf_template.conf"), "r") as template:
     zebraTemplate = string.Template(template.read())
-final = zebraTemplate.substitute()
+final = zebraTemplate.safe_substitute(id=)
 print(final)
 routers = []
 # for index,router in enumerate(data["routers"]):
