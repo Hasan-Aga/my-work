@@ -8,17 +8,20 @@ def file_path(relative_path):
     new_path = os.path.join(dir, *split_path)
     return new_path
 
+def getFirstKeyOfDict(dataDict:dict):
+    return list(dataDict.keys())[0]
 
 with open(file_path("/addressConfiguration.json"), "r") as addressFile:
             data = json.load(addressFile)
 
 routers = {}
 for index,router in enumerate(data["routers"]):
-    routers["router" + str(index+1)] = data["routers"][router]["interfaces"]["real"]["defaultIP"]
+    interfaces = data["routers"][router]["interfaces"]["real"]
+    routers["router" + str(index+1)] = interfaces[getFirstKeyOfDict(interfaces)]
 
 for index,firstInterface in enumerate(data["links"]):
     firstRouter = firstInterface.rpartition('-')[0]
     secondInterface = data["links"][firstInterface]
     secondRouter = secondInterface.rpartition('-')[0]
-    print(firstRouter, secondRouter, firstInterface, secondInterface)
 
+print(routers)

@@ -57,9 +57,12 @@ def getConfigFromJson(path):
 def addRoutersToGraph(self, data: dict):
     routers = {}
     for index,router in enumerate(data["routers"]):
-        routers["r" + str(index+1)] = self.addNode( router, cls=LinuxRouter, ip=data["routers"][router]["interfaces"]["real"]["defaultIP"] )
+        interface = data["routers"][router]["interfaces"]["real"]["defaultIP"]  
+        routers["r" + str(index+1)] = self.addNode( router, cls=LinuxRouter, ip=interface[getFirstKeyOfDict(interface)] )
     return routers
 
+def getFirstKeyOfDict(dataDict:dict):
+    return list(dataDict.keys())[0]
     
 def addAliasToInterface(interface: str, addressWithMask: str):
     # interface such as r1-eth1:0
