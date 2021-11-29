@@ -103,11 +103,7 @@ def run():
     loadZebraForAllRouters(net, data)
     loadOspfForAllRouters(net, data)
     time.sleep(0.5)
-    for r in routers:
-        device=net.getNodeByName(r)
-        # device.cmd(f'zebra -f /usr/local/etc/{r}zebra.conf -d -z ~/{r}zebra.api -i ~/{r}zebra.interface')
-        info( net[ r ].cmd( 'ifconfig' ) )
-        # device.cmd(f'ospfd -f /usr/local/etc/{r}ospfd.conf -d -z ~/{r}zebra.api -i ~/{r}ospfd.interface')
+
     
 # TODO CONFIGURE ALIASING and generation of router conf files
     # info('configuring ip aliasing \n')
