@@ -102,7 +102,7 @@ def getTemplateOf(templateName:str):
     return template
 
 def generateZebraConfFIles(data:dict):
-    zebraTemplate = getTemplateOf("zebra_template.conf").substitute()
+    zebraTemplate = getTemplateOf("zebra_template.conf").safe_substitute()
     routers = getRouterNames(data)
     for r in routers:
         with open(file_path(f'/conf/{r}zebra.conf'), 'w+') as filehandle:
