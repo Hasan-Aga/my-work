@@ -95,6 +95,10 @@ def loadOspfForAllRouters(net:Mininet, data:dict):
         device=net.getNodeByName(r)
         device.cmd(f'ospfd -f /usr/local/etc/{r}ospfd.conf -d -z ~/{r}zebra.api -i ~/{r}ospfd.interface')
 
+def generateZebraConfFIles(net:Mininet, data:dict):
+    routers = getRouterNames(data)
+    for r in routers:
+
 def run():
     "Test linux router"
     topo = NetworkTopo()
