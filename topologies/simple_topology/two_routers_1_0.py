@@ -80,13 +80,13 @@ def getRouterNames(data:dict):
         routers.append(router)
     return routers
 
-def loadZebraForAllRouters(net:mininet.net.Mininet, data:dict):
+def loadZebraForAllRouters(net:Mininet, data:dict):
     routers = getRouterNames(data)
     for r in routers:
         device=net.getNodeByName(r)
         device.cmd(f'zebra -f /usr/local/etc/{r}zebra.conf -d -z ~/{r}zebra.api -i ~/{r}zebra.interface')
 
-def loadOspfForAllRouters(net:mininet.net.Mininet, data:dict):
+def loadOspfForAllRouters(net:Mininet, data:dict):
     routers = getRouterNames(data)
     for r in routers:
         device=net.getNodeByName(r)
