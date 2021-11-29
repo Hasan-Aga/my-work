@@ -95,7 +95,13 @@ def loadOspfForAllRouters(net:Mininet, data:dict):
         device=net.getNodeByName(r)
         device.cmd(f'ospfd -f /usr/local/etc/{r}ospfd.conf -d -z ~/{r}zebra.api -i ~/{r}ospfd.interface')
 
+def getTemplateOf(templateName:str):
+    with open(file_path(f"/config_templates/{templateName}"), "r") as template:
+        template = template.read()
+    return template
+    
 def generateZebraConfFIles(data:dict):
+    zebraTemplate = getTemplateOf("zebra_template.conf")
     routers = getRouterNames(data)
     # for r in routers:
 
