@@ -39,8 +39,8 @@ class NetworkTopo( Topo ):
 
         addLinkBwRouters(self, data, routers)
 
-        self.addLink(h1,routers["r1"],intfName2='r1-eth2',params2={ 'ip' : '10.0.1.10/24' })#params2 define the eth2 ip address
-        self.addLink(h2,routers["r2"],intfName2='r2-eth2',params2={ 'ip' : '10.0.2.20/24' })
+        self.addLink(h1,routers["r1"],intfName2='r1-eth0',params2={ 'ip' : '10.0.0.1/24' })#params2 define the eth2 ip address
+        self.addLink(h2,routers["r4"],intfName2='r2-eth1',params2={ 'ip' : '10.0.8.1/24' })
 
 def addLinkBwRouters(self, data: dict, routers: dict):
     for firstInterface in data["links"]:
