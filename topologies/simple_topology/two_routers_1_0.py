@@ -137,7 +137,7 @@ def generateOspfConfFiles(data:dict):
             name = f'{router}_ospf',
             id = getRouterFirstInterface(data, router, False),
             network = networkCommand)
-        with open(file_path(f'/conf/{router}ospf.conf'), 'w+') as filehandle:
+        with open(file_path(f'/conf/{router}ospfd.conf'), 'w+') as filehandle:
             filehandle.write(confFile)
         
 #TODO on the VM, remove old conf and use new ones
