@@ -59,5 +59,5 @@ sudo cp libospf.* /lib
 ```
 
 ## part two: run the experiment
-to run the experiment, first copy the ```.conf``` files from inside the '/topologies/simple_topology/conf' directory of this repo to ```/usr/local/etc/``` then run the python scripts that is inside the 'topologies' sub-directories of this repo.
+to run the experiment, first copy one of the topology folders and edit the ```addressConfiguration.json``` file so it has all the routers and the connections between them, the edit the python script by adding your hosts if any and connecting them to the router (edit the builder function where it says ```addHost``` and ```addLink```
 
