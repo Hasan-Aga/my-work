@@ -45,6 +45,7 @@ class NetworkTopo( Topo ):
 
 #TODO giving IP to interfaces, all must be in one place
 def addRoutersInterfaces(routers, data:dict):
+    info("Routers= " + routers)
     for r in routers:
         for interface in data["routers"][r]["interfaces"]["real"]:
             ip = data["routers"][r]["interfaces"]["real"][interface]
