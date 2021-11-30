@@ -55,6 +55,6 @@
     },
     "links":{
         "r1-eth1": "r2-eth0",
-        "r2-eth3": "r4-eth0"
+        "r2-eth3": "r3-eth0"
         }
 }
