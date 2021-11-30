@@ -44,6 +44,7 @@ class NetworkTopo( Topo ):
         self.addLink(h2,routers["r4"],intfName2='r2-eth1',params2={ 'ip' : '10.0.8.1/24' })
 
 #TODO giving IP to interfaces, all must be in one place
+# https://mailman.stanford.edu/pipermail/mininet-discuss/2015-March/005895.html
 def addRoutersInterfaces(routers, data:dict):
     info("Routers= " + str(routers))
     for r in routers:
@@ -71,7 +72,7 @@ def addRoutersToGraph(self, data: dict):
     routers = {}
     for index,router in enumerate(data["routers"]):
         interface = data["routers"][router]["interfaces"]["real"]
-        routers[router] = self.addNode( router, cls=LinuxRouter, ip=interface[getFirstKeyOfDict(interface)] )
+        routers[router] = self.addNode( router, cls=LinuxRouter, ip=[interface[getFirstKeyOfDict(interface)], "10.10.10.10"] )
     return routers
 
 def getFirstKeyOfDict(dataDict:dict):
