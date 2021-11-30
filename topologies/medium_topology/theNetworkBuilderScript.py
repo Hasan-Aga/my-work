@@ -48,7 +48,7 @@ def addLinkBwRouters(self, data: dict, routers: dict):
     for firstInterface in data["links"]:
         firstRouter = firstInterface.rpartition('-')[0]
         secondInterface = data["links"][firstInterface]
-        info("linking" + firstInterface + "with" + secondInterface + "\n")
+        info("linking " + firstInterface + " with " + secondInterface + "\n")
         secondRouter = secondInterface.rpartition('-')[0]
         self.addLink(firstRouter,secondRouter,intfName1=firstInterface,intfName2=secondInterface)
 
