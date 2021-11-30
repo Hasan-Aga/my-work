@@ -88,13 +88,13 @@ def loadZebraForAllRouters(net:Mininet, data:dict):
     routers = getRouterNames(data)
     for r in routers:
         device=net.getNodeByName(r)
-        device.cmd(f'zebra -f /usr/local/etc/{r}zebra.conf -d -z ~/{r}zebra.api -i ~/{r}zebra.interface')
+        device.cmd(f'zebra -f conf/{r}zebra.conf -d -z ~/{r}zebra.api -i ~/{r}zebra.interface')
 
 def loadOspfForAllRouters(net:Mininet, data:dict):
     routers = getRouterNames(data)
     for r in routers:
         device=net.getNodeByName(r)
-        device.cmd(f'ospfd -f /usr/local/etc/{r}ospfd.conf -d -z ~/{r}zebra.api -i ~/{r}ospfd.interface')
+        device.cmd(f'ospfd -f conf/{r}ospfd.conf -d -z ~/{r}zebra.api -i ~/{r}ospfd.interface')
 
 def getTemplateOf(templateName:str):
     with open(file_path(f"/config_templates/{templateName}"), "r") as file:
