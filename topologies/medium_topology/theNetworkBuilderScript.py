@@ -33,7 +33,7 @@ class NetworkTopo( Topo ):
         routers = {}
         routers = addRoutersToGraph(self,data)
         
-            
+        info(routers)
         h1 = self.addHost( 'h1', ip='10.0.0.100/24', defaultRoute='via 10.0.0.1') #define gateway
         h2 = self.addHost( 'h2', ip='10.0.10.100/24', defaultRoute='via 10.0.8.1')
 
