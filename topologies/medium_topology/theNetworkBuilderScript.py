@@ -33,7 +33,7 @@ class NetworkTopo( Topo ):
         routers = {}
         routers = addRoutersToGraph(self,data)
         
-        info(routers)
+        
         h1 = self.addHost( 'h1', ip='10.0.0.100/24', defaultRoute='via 10.0.0.1') #define gateway
         h2 = self.addHost( 'h2', ip='10.0.10.100/24', defaultRoute='via 10.0.8.1')
 
@@ -59,7 +59,7 @@ def addRoutersToGraph(self, data: dict):
     routers = {}
     for index,router in enumerate(data["routers"]):
         interface = data["routers"][router]["interfaces"]["real"]
-        routers[data["routers"][router]] = self.addNode( router, cls=LinuxRouter, ip=interface[getFirstKeyOfDict(interface)] )
+        routers["r" + str(index+1)] = self.addNode( router, cls=LinuxRouter, ip=interface[getFirstKeyOfDict(interface)] )
     return routers
 
 def getFirstKeyOfDict(dataDict:dict):
