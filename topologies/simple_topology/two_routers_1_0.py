@@ -139,8 +139,8 @@ def generateOspfConfFiles(data:dict):
         with open(file_path(f'/conf/{router}ospf.conf'), 'w+') as filehandle:
             filehandle.write(confFile)
         
-#TODO fix repeating lines 4 times in r2ospf.conf!!!
 #TODO on the VM, remove old conf and use new ones
+#TODO clean folders and improve readmes
 
 def run():
     "Test linux router"
