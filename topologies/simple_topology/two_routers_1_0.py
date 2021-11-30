@@ -134,7 +134,7 @@ def generateOspfConfFiles(data:dict):
         for address in getAllInterfacesOfRouter(data, router, True):
             networkCommand += f"network {zeroLastDigit(address)}/24 area 0\n  "
         confFile = ospfTemplate.safe_substitute(
-            name = f'{router}ospf.conf',
+            name = f'{router}_ospf',
             id = getRouterFirstInterface(data, router, False),
             network = networkCommand)
         with open(file_path(f'/conf/{router}ospf.conf'), 'w+') as filehandle:
