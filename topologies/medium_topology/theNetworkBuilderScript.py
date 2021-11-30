@@ -43,7 +43,6 @@ class NetworkTopo( Topo ):
         self.addLink(h2,routers["r3"],intfName2='r2-eth1',params2={ 'ip' : '10.0.8.1/24' })
 
 #TODO fix linking the routers
-#TODO fix naming of routers in addRoutersToGraph
 
 def addLinkBwRouters(self, data: dict, routers: dict):
     for firstInterface in data["links"]:
@@ -63,7 +62,7 @@ def addRoutersToGraph(self, data: dict):
     routers = {}
     for index,router in enumerate(data["routers"]):
         interface = data["routers"][router]["interfaces"]["real"]
-        routers["r" + str(index+1)] = self.addNode( router, cls=LinuxRouter, ip=interface[getFirstKeyOfDict(interface)] )
+        routers[router] = self.addNode( router, cls=LinuxRouter, ip=interface[getFirstKeyOfDict(interface)] )
     return routers
 
 def getFirstKeyOfDict(dataDict:dict):
