@@ -65,12 +65,12 @@ def addLinkBwRouters(self, data: dict, routers: dict):
         info(secondRouter + " int. " +
              secondInterface + " ip = " + addressTwo + "\n")
 
-        info(self.addLink(
-            secondRouter, firstRouter,
-            intfName2=firstInterface,params2={'ip': addressOne},
-             intfName1=secondInterface, params1={'ip': addressTwo}
-        ))
-
+        # self.addLink(
+        #     secondRouter, firstRouter,
+        #     intfName2=firstInterface,params2={'ip': addressOne},
+        #      intfName1=secondInterface, params1={'ip': addressTwo}
+        # )
+        
 
 
 def getConfigFromJson(path):
