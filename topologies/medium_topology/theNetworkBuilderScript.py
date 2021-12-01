@@ -24,30 +24,36 @@ class LinuxRouter( Node ):
 
 
 class NetworkTopo( Topo ):
-    "A LinuxRouter connecting three IP subnets"
-    "The connection between routers uses IP aliases"
+    "A LinuxRouter "
 
     def build( self, **_opts ):
 
         data = getConfigFromJson(file_path("/addressConfiguration.json"))
         routers = {}
         routers = addRoutersToGraph(self,data)
+        addRoutersInterfaces(self.nodes(), data)
         
         
+        h2 = self.addHost( 'h2', ip='10.0.8.100/24', defaultRoute='via 10.0.8.1')
         h1 = self.addHost( 'h1', ip='10.0.0.100/24', defaultRoute='via 10.0.0.1') #define gateway
-        h2 = self.addHost( 'h2', ip='10.0.10.100/24', defaultRoute='via 10.0.8.1')
 
         addLinkBwRouters(self, data, routers)
 
         self.addLink(h1,routers["r1"],intfName2='r1-eth0',params2={ 'ip' : '10.0.0.1/24' })#params2 define the eth2 ip address
         self.addLink(h2,routers["r4"],intfName2='r2-eth1',params2={ 'ip' : '10.0.8.1/24' })
 
-#TODO fix linking the routers
+#TODO giving IP to interfaces, all must be in one place
+# https://mailman.stanford.edu/pipermail/mininet-discuss/2015-March/005895.html
+def addRoutersInterfaces(nodes, data:dict):
+    info("nodes= " + str(nodes))
+    
+
 
 def addLinkBwRouters(self, data: dict, routers: dict):
     for firstInterface in data["links"]:
         firstRouter = firstInterface.rpartition('-')[0]
         secondInterface = data["links"][firstInterface]
+        info("linking " + firstInterface + " with " + secondInterface + "\n")
         secondRouter = secondInterface.rpartition('-')[0]
         self.addLink(firstRouter,secondRouter,intfName1=firstInterface,intfName2=secondInterface)
 
@@ -57,6 +63,7 @@ def getConfigFromJson(path):
         data = json.load(addressFile)
     return data
         
+
 def addRoutersToGraph(self, data: dict):
     routers = {}
     for index,router in enumerate(data["routers"]):
