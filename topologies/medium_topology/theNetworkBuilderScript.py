@@ -43,7 +43,7 @@ class NetworkTopo(Topo):
         # params2 define the eth2 ip address
         self.addLink(h1, routers["r1"], intfName2='r1-eth0',
                      params2={'ip': '10.0.0.1/24'})
-        self.addLink(h2, routers["r4"], intfName2='r2-eth1',
+        self.addLink(h2, routers["r4"], intfName2='r4-eth1',
                      params2={'ip': '10.0.8.1/24'})
 
 # TODO fix wrong ip in r1 and wrong interface name in r4
