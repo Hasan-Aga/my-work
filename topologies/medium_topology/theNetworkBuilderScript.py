@@ -46,7 +46,7 @@ class NetworkTopo(Topo):
         self.addLink(h2, routers["r4"], intfName2='r4-eth1',
                      params2={'ip': '10.0.8.1/24'})
 
-# TODO fix wrong ip in r1 and wrong interface name in r4
+# TODO fix wrong ip in r1 
 #TODO look into addLink()
 # https://mailman.stanford.edu/pipermail/mininet-discuss/2015-March/005895.html
 
