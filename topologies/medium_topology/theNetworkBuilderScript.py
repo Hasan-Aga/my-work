@@ -46,7 +46,7 @@ class NetworkTopo(Topo):
         self.addLink(h2, routers["r4"], intfName2='r2-eth1',
                      params2={'ip': '10.0.8.1/24'})
 
-# TODO add links bw routers (hence adding the interfaces)
+# TODO fix wrong ip in r1 and wrong interface name in r4
 # https://mailman.stanford.edu/pipermail/mininet-discuss/2015-March/005895.html
 
 
@@ -67,7 +67,7 @@ def addLinkBwRouters(self, data: dict, routers: dict):
         self.addLink(
             firstRouter, secondRouter,
             intfName1=firstInterface,params1={'ip': addressOne},
-             intfName2=secondInterface, params2={'ip': addressTwo}
+             intfName2=secondInterface
         )
 
 
