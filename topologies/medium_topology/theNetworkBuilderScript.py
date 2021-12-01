@@ -48,6 +48,7 @@ class NetworkTopo( Topo ):
 
 
 def addLinkBwRouters(self, data: dict, routers: dict):
+    info(str(data["links"]))
     for firstInterface in data["links"]:
         firstRouter = firstInterface.rpartition('-')[0]
         info(firstRouter)
