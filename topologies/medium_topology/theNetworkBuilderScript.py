@@ -47,7 +47,7 @@ class NetworkTopo( Topo ):
 def addRoutersInterfaces(nodes, data:dict):
     info("nodes= " + str(nodes) + "\n")
     for node in nodes:
-        for interface in getAllInterfacesOfRouter(node):
+        for interface in getAllInterfacesOfRouter(data,node,True):
             node.setIP("1.1.1.1/24", interface)
             info("added interface: " + interface + "\n")
     
