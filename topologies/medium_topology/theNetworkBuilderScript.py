@@ -42,11 +42,11 @@ class NetworkTopo( Topo ):
 def addRoutersInterfaces(net:Mininet, data:dict):
     routers = getRouterNames(data)
     for r in routers:
-        device=net.getNodeByName(r)
+        # device=net.getNodeByName(r)
         for interface,address in getAllInterfacesaAndIPsOfRouters(data,r,True).items():
             info(r + " ifconfig " + interface + " " + removeWildCard(address) + " netmask " + str(ipaddress.ip_network(address, strict=False).netmask) + "\n")
-            # device.cmd(f"ifconfig {interface} {removeWildCard(address)} netmask {ipaddress.ip_network(address, strict=False).netmask} up ")
-            net[r].cmd('ifconfig')
+            net[r].cmd(f"ifconfig {interface} {removeWildCard(address)} netmask {ipaddress.ip_network(address, strict=False).netmask} up ")
+            info(net[r].cmd('ifconfig'))
     
 
 
