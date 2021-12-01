@@ -30,7 +30,7 @@ class NetworkTopo( Topo ):
 
         data = getConfigFromJson(file_path("/addressConfiguration.json"))
         routers = {}
-        routers = addRoutersToGraph(self,data)
+        addRoutersToGraph(self,data)
         addRoutersInterfaces(self.nodes(), data)
         
         
@@ -65,11 +65,9 @@ def getConfigFromJson(path):
         
 
 def addRoutersToGraph(self, data: dict):
-    routers = {}
     for index,router in enumerate(data["routers"]):
         interface = data["routers"][router]["interfaces"]["real"]
         routers[router] = self.addNode( router, cls=LinuxRouter, ip=interface[getFirstKeyOfDict(interface)] )
-    return routers
 
 def getFirstKeyOfDict(dataDict:dict):
     return list(dataDict.keys())[0]
