@@ -45,7 +45,7 @@ def addRoutersInterfaces(net:Mininet, data:dict):
         device=net.getNodeByName(r)
         for interface,address in getAllInterfacesaAndIPsOfRouters(data,r,True).items():
             device.cmd(f"ifconfig {interface} {removeWildCard(address.split('-')[1])} netmask {ipaddress.ip_network(address, strict=False).netmask} up ")
-            info("ifconfig " + interface + " " + removeWildCard(address.split('-')[1])) + " netmask " + str(ipaddress.ip_network(address, strict=False).netmask) + "\n")
+            info("ifconfig " + interface + " " + removeWildCard(address.split('-')[1]) + " netmask " + str(ipaddress.ip_network(address, strict=False).netmask) + "\n")
     
 
 
