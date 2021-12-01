@@ -35,8 +35,8 @@ class NetworkTopo(Topo):
 
         h2 = self.addHost('h2', ip='10.0.8.100/24',
                           defaultRoute='via 10.0.8.1')
-        h1 = self.addHost('h1', ip='10.0.0.100/24',
-                          defaultRoute='via 10.0.0.1')  # define gateway
+        # h1 = self.addHost('h1', ip='10.0.0.100/24',
+        #                   defaultRoute='via 10.0.0.1')  # define gateway
 
         addLinkBwRouters(self, data, routers)
 
