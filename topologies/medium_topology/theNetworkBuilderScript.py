@@ -45,7 +45,11 @@ class NetworkTopo( Topo ):
 #TODO giving IP to interfaces, all must be in one place
 # https://mailman.stanford.edu/pipermail/mininet-discuss/2015-March/005895.html
 def addRoutersInterfaces(nodes, data:dict):
-    info("nodes= " + str(nodes))
+    info("nodes= " + str(nodes) + "\n")
+    for node in nodes:
+        for interface in getAllInterfacesOfRouter(node):
+            node.setIP("1.1.1.1/24", interface)
+            info("added interface: " + interface + "\n")
     
 
 
