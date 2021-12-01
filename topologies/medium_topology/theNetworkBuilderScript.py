@@ -57,7 +57,6 @@ def addLinkBwRouters(self, data: dict, routers: dict):
         info(firstRouter + "\n")
         addressOne = data["routers"][firstRouter]["interfaces"]["real"][firstInterface]
         secondInterface = data["links"][firstInterface]
-        info("linking " + firstInterface + " with " + secondInterface + "\n")
         secondRouter = secondInterface.rpartition('-')[0]
         addressTwo = data["routers"][secondRouter]["interfaces"]["real"][secondInterface]
         info(firstRouter + " int. " +
