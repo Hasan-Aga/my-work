@@ -31,7 +31,7 @@ class NetworkTopo( Topo ):
         data = getConfigFromJson(file_path("/addressConfiguration.json"))
         routers = {}
         addRoutersToGraph(self,data)
-        addRoutersInterfaces(self.nodes(), data)
+        addRoutersInterfaces(self.hosts(), data)
         
         
         h2 = self.addHost( 'h2', ip='10.0.8.100/24', defaultRoute='via 10.0.8.1')
