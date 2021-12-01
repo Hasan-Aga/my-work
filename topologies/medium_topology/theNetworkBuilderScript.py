@@ -60,16 +60,13 @@ def addLinkBwRouters(self, data: dict, routers: dict):
         secondInterface = data["links"][firstInterface]
         secondRouter = secondInterface.rpartition('-')[0]
         addressTwo = data["routers"][secondRouter]["interfaces"]["real"][secondInterface]
-        info(firstRouter + " int. " +
-             firstInterface + " ip = " + addressOne + "\n")
-        info(secondRouter + " int. " +
-             secondInterface + " ip = " + addressTwo + "\n")
+        info(firstInterface + " -- " + secondInterface + "\n" + addressOne + " -- " + addressTwo + "\n")
 
-        # self.addLink(
-        #     secondRouter, firstRouter,
-        #     intfName2=firstInterface,params2={'ip': addressOne},
-        #      intfName1=secondInterface, params1={'ip': addressTwo}
-        # )
+        self.addLink(
+            secondRouter, firstRouter,
+            intfName2=firstInterface,params2={'ip': addressOne},
+             intfName1=secondInterface, params1={'ip': addressTwo}
+        )
         
 
 
