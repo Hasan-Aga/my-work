@@ -50,10 +50,14 @@ class NetworkTopo( Topo ):
 def addLinkBwRouters(self, data: dict, routers: dict):
     for firstInterface in data["links"]:
         firstRouter = firstInterface.rpartition('-')[0]
+        addressOne = data["routers"][firstRouter]["interfaces"]["real"][firstInterface]
         secondInterface = data["links"][firstInterface]
         info("linking " + firstInterface + " with " + secondInterface + "\n")
         secondRouter = secondInterface.rpartition('-')[0]
-        self.addLink(firstRouter,secondRouter,intfName1=firstInterface,intfName2=secondInterface)
+        addressTwo = data["routers"][secondRouter]["interfaces"]["real"][secondInterface]
+        self.addLink(firstRouter,secondRouter,
+        intfName1=firstInterface,intfName2=secondInterface,
+         params1={'ip' : addressOne}, params2={'ip' : addressTwo})
 
 
 def getConfigFromJson(path):
