@@ -37,10 +37,6 @@ class NetworkTopo( Topo ):
         h1 = self.addHost( 'h1', ip='10.0.0.100/24', defaultRoute='via 10.0.0.1') #define gateway
 
 
-
-        self.addLink(h1,routers["r1"],intfName2='r1-eth0',params2={ 'ip' : '10.0.0.1/24' })#params2 define the eth2 ip address
-        self.addLink(h2,routers["r4"],intfName2='r2-eth1',params2={ 'ip' : '10.0.8.1/24' })
-
 #TODO giving IP to interfaces, all must be in one place
 # https://mailman.stanford.edu/pipermail/mininet-discuss/2015-March/005895.html
 def addRoutersInterfaces(net:Mininet, data:dict):
@@ -164,6 +160,13 @@ def run():
     data = getConfigFromJson(file_path("/addressConfiguration.json"))
     addRoutersInterfaces(data)
     addLinkBwRouters(data)
+
+    h1 = net.getNodeByName('h1')
+    h2 = net.getNodeByName('h2')
+    r1 = net.getNodeByName('r1')
+    r4 = net.getNodeByName('r4')
+    net.addLink(h1,r1,intfName2='r1-eth0',params2={ 'ip' : '10.0.0.1/24' })#params2 define the eth2 ip address
+    net.addLink(h2,r4,intfName2='r2-eth1',params2={ 'ip' : '10.0.8.1/24' })
 
     data = getConfigFromJson(file_path("/addressConfiguration.json"))
     generateZebraConfFIles(data)
