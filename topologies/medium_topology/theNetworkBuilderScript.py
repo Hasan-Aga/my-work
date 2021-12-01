@@ -51,18 +51,18 @@ class NetworkTopo(Topo):
 
 
 def addLinkBwRouters(self, data: dict, routers: dict):
-    info(str(data["links"]))
+    info(str(data["links"]) + "\n")
     for firstInterface in data["links"]:
         firstRouter = firstInterface.rpartition('-')[0]
-        info(firstRouter)
+        info(firstRouter + "\n")
         addressOne = data["routers"][firstRouter]["interfaces"]["real"][firstInterface]
         secondInterface = data["links"][firstInterface]
         info("linking " + firstInterface + " with " + secondInterface + "\n")
         secondRouter = secondInterface.rpartition('-')[0]
         addressTwo = data["routers"][secondRouter]["interfaces"]["real"][secondInterface]
-        info(firstRouter + " has interface " +
+        info(firstRouter + " int. " +
              firstInterface + " ip = " + addressOne + "\n")
-        info(secondRouter + " has interface " +
+        info(secondRouter + " int. " +
              secondInterface + " ip = " + addressTwo + "\n")
 
         self.addLink(
