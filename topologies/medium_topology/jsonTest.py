@@ -21,7 +21,8 @@ routers = {}
 for index,router in enumerate(data["routers"]):
     interfaces = data["routers"][router]["interfaces"]["real"]
     routers["router" + str(index+1)] = interfaces[getFirstKeyOfDict(interfaces)]
-    print(interfaces["r2-eth3"])
+    
+print(data["routers"]["r2"]["interfaces"]["real"]["r2-eth3"])
 
 # for index,firstInterface in enumerate(data["links"]):
 #     firstRouter = firstInterface.rpartition('-')[0]
