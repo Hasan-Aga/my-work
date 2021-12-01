@@ -5,10 +5,10 @@ from mininet.net import Mininet
 from mininet.node import Node
 from mininet.log import setLogLevel, info
 from mininet.cli import CLI
-import time
 import os
 import json
 import string
+import ipaddress
 
 class LinuxRouter( Node ):
     "A Node with IP forwarding enabled."
@@ -44,7 +44,7 @@ def addRoutersInterfaces(net:Mininet, data:dict):
     for r in routers:
         device=net.getNodeByName(r)
         for interface,address in getAllInterfacesaAndIPsOfRouters(data,r,True).items():
-            device.cmd(f"ifconfig {interface} {address} ")
+            device.cmd(f"ifconfig {interface} {ipaddress.ip_network(address, strict=False).netmask} ")
             info("added interface: " + interface + address + "\n")
     
 

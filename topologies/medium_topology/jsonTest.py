@@ -2,6 +2,7 @@ import json
 # Import the os module
 import os
 import string
+import ipaddress
 
 def file_path(relative_path):
     dir = os.path.dirname(os.path.abspath(__file__))
@@ -21,7 +22,8 @@ routers = {}
 for index,router in enumerate(data["routers"]):
     interfaces = data["routers"][router]["interfaces"]["real"]
     routers["router" + str(index+1)] = interfaces[getFirstKeyOfDict(interfaces)]
-    print(interfaces)
+    
+print(ipaddress.ip_network('192.168.0.1/24', strict=False).netmask)
 
 # for index,firstInterface in enumerate(data["links"]):
 #     firstRouter = firstInterface.rpartition('-')[0]
