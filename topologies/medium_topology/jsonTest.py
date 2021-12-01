@@ -22,9 +22,7 @@ routers = {}
 for index,router in enumerate(data["routers"]):
     interfaces = data["routers"][router]["interfaces"]["real"]
     routers["router" + str(index+1)] = interfaces[getFirstKeyOfDict(interfaces)]
-    
-print(ipaddress.ip_network('192.168.0.1/24', strict=False).netmask)
-
+    print(interfaces)
 # for index,firstInterface in enumerate(data["links"]):
 #     firstRouter = firstInterface.rpartition('-')[0]
 #     secondInterface = data["links"][firstInterface]
