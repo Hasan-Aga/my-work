@@ -158,8 +158,8 @@ def run():
     net.start()
 
     data = getConfigFromJson(file_path("/addressConfiguration.json"))
-    addRoutersInterfaces(data)
-    addLinkBwRouters(data)
+    addRoutersInterfaces(net,data)
+    addLinkBwRouters(net,data)
 
     h1 = net.getNodeByName('h1')
     h2 = net.getNodeByName('h2')
