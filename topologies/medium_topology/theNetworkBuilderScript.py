@@ -44,7 +44,7 @@ def addRoutersInterfaces(net:Mininet, data:dict):
     for r in routers:
         device=net.getNodeByName(r)
         for interface in getAllInterfacesOfRouter(data,r,True):
-            device.setIP("1.1.1.1/24", interface)
+            device.cmd(f"ifconfig {interface} 1.1.1.1")
             info("added interface: " + interface + "\n")
     
 
