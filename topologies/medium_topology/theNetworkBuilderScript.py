@@ -138,7 +138,7 @@ def generateOspfConfFiles(data:dict):
     ospfTemplate = getTemplateOf("ospf_template.conf")
     for router in routers:
         networkCommand = ""
-        for _,address in getAllInterfacesaAndIPsOfRouters(data, router, True):
+        for _,address in getAllInterfacesaAndIPsOfRouters(data, router, True).items():
             networkCommand += f"network {zeroLastDigit(address)}/24 area 0\n  "
         confFile = ospfTemplate.safe_substitute(
             name = f'{router}_ospf',
