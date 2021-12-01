@@ -43,9 +43,9 @@ def addRoutersInterfaces(net:Mininet, data:dict):
     routers = getRouterNames(data)
     for r in routers:
         device=net.getNodeByName(r)
-        for interface in getAllInterfacesOfRouter(data,r,True):
-            device.cmd(f"ifconfig {interface} 1.1.1.1")
-            info("added interface: " + interface + "\n")
+        for interface,address in getAllInterfacesIPsOfRouter(data,r,True):
+            device.cmd(f"ifconfig {interface} {address} ")
+            info("added interface: " + interface + address + "\n")
     
 
 
@@ -119,12 +119,12 @@ def getRouterFirstInterface(data:dict, router:str, withWildCard:bool):
     interface = data["routers"][router]["interfaces"]["real"]
     return interface[getFirstKeyOfDict(interface)] if withWildCard else removeWildCard(interface[getFirstKeyOfDict(interface)])
 
-def getAllInterfacesOfRouter(data:dict, router:str, withWildCard:bool):
+def getAllInterfacesIPsOfRouter(data:dict, router:str, withWildCard:bool):
     interface = data["routers"][router]["interfaces"]["real"]
-    addressList = []
+    InterfaceAddressDict = {}
     for i in list(interface.keys()):
-        addressList.append(interface[i]) if withWildCard else addressList.append(removeWildCard(interface[i]))
-    return addressList
+        InterfaceAddressDict[i] = interface[i] if withWildCard else InterfaceAddressDict[i] = removeWildCard(interface[i])
+    return InterfaceAddressDict
 
 def removeWildCard(ip:str):
     return ip[:-3]
@@ -138,7 +138,7 @@ def generateOspfConfFiles(data:dict):
     ospfTemplate = getTemplateOf("ospf_template.conf")
     for router in routers:
         networkCommand = ""
-        for address in getAllInterfacesOfRouter(data, router, True):
+        for _,address in getAllInterfacesIPsOfRouter(data, router, True):
             networkCommand += f"network {zeroLastDigit(address)}/24 area 0\n  "
         confFile = ospfTemplate.safe_substitute(
             name = f'{router}_ospf',
