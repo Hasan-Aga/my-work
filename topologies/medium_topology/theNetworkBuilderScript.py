@@ -32,7 +32,7 @@ class NetworkTopo( Topo ):
         data = getConfigFromJson(file_path("/addressConfiguration.json"))
         routers = {}
         routers = addRoutersToGraph(self,data)
-        # addRoutersInterfaces(routers, data)
+        addRoutersInterfaces(self.nodes(), data)
         
         
         h2 = self.addHost( 'h2', ip='10.0.8.100/24', defaultRoute='via 10.0.8.1')
@@ -45,12 +45,9 @@ class NetworkTopo( Topo ):
 
 #TODO giving IP to interfaces, all must be in one place
 # https://mailman.stanford.edu/pipermail/mininet-discuss/2015-March/005895.html
-def addRoutersInterfaces(routers, data:dict):
-    info("Routers= " + str(routers))
-    for r in routers:
-        for interface in data["routers"][r]["interfaces"]["real"]:
-            ip = data["routers"][r]["interfaces"]["real"][interface]
-            r.cmd(f"ifconfig {interface} {ip}")
+def addRoutersInterfaces(nodes, data:dict):
+    info("nodes= " + str(nodes))
+    
 
 
 def addLinkBwRouters(self, data: dict, routers: dict):
@@ -72,7 +69,7 @@ def addRoutersToGraph(self, data: dict):
     routers = {}
     for index,router in enumerate(data["routers"]):
         interface = data["routers"][router]["interfaces"]["real"]
-        routers[router] = self.addNode( router, cls=LinuxRouter, ip=[interface[getFirstKeyOfDict(interface)], "10.10.10.10"] )
+        routers[router] = self.addNode( router, cls=LinuxRouter, ip=interface[getFirstKeyOfDict(interface)] )
     return routers
 
 def getFirstKeyOfDict(dataDict:dict):
