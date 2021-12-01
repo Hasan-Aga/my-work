@@ -29,26 +29,26 @@ class NetworkTopo( Topo ):
     def build( self, **_opts ):
 
         data = getConfigFromJson(file_path("/addressConfiguration.json"))
-        routers = {}
         addRoutersToGraph(self,data)
-        addRoutersInterfaces(self.hosts(), data)
+
         
         
         h2 = self.addHost( 'h2', ip='10.0.8.100/24', defaultRoute='via 10.0.8.1')
         h1 = self.addHost( 'h1', ip='10.0.0.100/24', defaultRoute='via 10.0.0.1') #define gateway
 
-        addLinkBwRouters(self, data, routers)
+
 
         self.addLink(h1,routers["r1"],intfName2='r1-eth0',params2={ 'ip' : '10.0.0.1/24' })#params2 define the eth2 ip address
         self.addLink(h2,routers["r4"],intfName2='r2-eth1',params2={ 'ip' : '10.0.8.1/24' })
 
 #TODO giving IP to interfaces, all must be in one place
 # https://mailman.stanford.edu/pipermail/mininet-discuss/2015-March/005895.html
-def addRoutersInterfaces(nodes, data:dict):
-    info("nodes= " + str(nodes) + "\n")
-    for node in nodes:
-        for interface in getAllInterfacesOfRouter(data,node,True):
-            node.setIP("1.1.1.1/24", interface)
+def addRoutersInterfaces(net:Mininet, data:dict):
+    routers = getRouterNames(data)
+    for r in routers:
+        device=net.getNodeByName(r)
+        for interface in getAllInterfacesOfRouter(data,r,True):
+            r.setIP("1.1.1.1/24", interface)
             info("added interface: " + interface + "\n")
     
 
@@ -160,7 +160,11 @@ def run():
     net = Mininet(controller = None, topo=topo )  # controller is used by s1-s3
     # info("type of net = " + str(type(net)) + " \n")
     net.start()
-    
+
+    data = getConfigFromJson(file_path("/addressConfiguration.json"))
+    addRoutersInterfaces(data)
+    addLinkBwRouters(data)
+
     data = getConfigFromJson(file_path("/addressConfiguration.json"))
     generateZebraConfFIles(data)
     generateOspfConfFiles(data)
