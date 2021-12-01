@@ -44,18 +44,18 @@ def addRoutersInterfaces(net:Mininet, data:dict):
     for r in routers:
         device=net.getNodeByName(r)
         for interface in getAllInterfacesOfRouter(data,r,True):
-            r.setIP("1.1.1.1/24", interface)
+            device.setIP("1.1.1.1/24", interface)
             info("added interface: " + interface + "\n")
     
 
 
-def addLinkBwRouters(self, data: dict, routers: dict):
+def addLinkBwRouters(net:Mininet, data: dict):
     for firstInterface in data["links"]:
         firstRouter = firstInterface.rpartition('-')[0]
         secondInterface = data["links"][firstInterface]
         info("linking " + firstInterface + " with " + secondInterface + "\n")
         secondRouter = secondInterface.rpartition('-')[0]
-        self.addLink(firstRouter,secondRouter,intfName1=firstInterface,intfName2=secondInterface)
+        net.addLink(firstRouter,secondRouter,intfName1=firstInterface,intfName2=secondInterface)
 
 
 def getConfigFromJson(path):
