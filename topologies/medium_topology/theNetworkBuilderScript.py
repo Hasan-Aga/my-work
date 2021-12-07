@@ -65,8 +65,8 @@ def addLinkBwRouters(self, data: dict, routers: dict):
 
         self.addLink(
             firstRouter, secondRouter,
-            intfName2=secondInterface, params2={'ip': addressTwo},
-            intfName1=firstInterface, params1={'ip': addressOne}
+            intfName1=firstInterface, params1={'ip': addressOne},
+            intfName2=secondInterface, params2={'ip': addressTwo}
         )
 
 
