@@ -9,7 +9,7 @@ sudo apt update
 
 sudo apt install gawk
 
-sudo apt install libreadline6 libreadline6-dev
+sudo apt install libreadline-dev
 
 sudo apt install libtool
 
