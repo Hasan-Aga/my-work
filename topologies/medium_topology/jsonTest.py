@@ -22,8 +22,10 @@ for index,router in enumerate(data["routers"]):
     interfaces = data["routers"][router]["interfaces"]["real"]
     routers["router" + str(index+1)] = interfaces[getFirstKeyOfDict(interfaces)]
     
-print(data["routers"]["r2"]["interfaces"]["real"]["r2-eth3"])
+def removeWildCard(ip: str):
+    return ip.rpartition("/")[0]
 
+print(removeWildCard("1.1.1.1/16"))
 # for index,firstInterface in enumerate(data["links"]):
 #     firstRouter = firstInterface.rpartition('-')[0]
 #     secondInterface = data["links"][firstInterface]
