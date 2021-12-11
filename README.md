@@ -48,7 +48,7 @@ After that you can connect to the zebra console using telnet (password=zebra):
 ```
 telnet localhost 2601
 ```
-then, test if OSPFD can run with no problems by running:
+then, test if OSPFD by running:
 ```
 sudo ospfd -d
 ```
