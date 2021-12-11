@@ -38,7 +38,7 @@ class NetworkTopo(Topo):
         # h1 = self.addHost('h1', ip='10.0.0.100/24',
         #                   defaultRoute='via 10.0.0.1')  # define gateway
 
-        addLinkBwRouters(self, data, routers)
+        addLinkBwRouters(self, data)
 
         # params2 define the eth2 ip address
         # self.addLink(h1, routers["r1"], intfName2='r1-eth0',
@@ -51,7 +51,7 @@ class NetworkTopo(Topo):
 # https://mailman.stanford.edu/pipermail/mininet-discuss/2015-March/005895.html
 
 
-def addLinkBwRouters(self, data: dict, routers: dict):
+def addLinkBwRouters(self, data: dict):
     info("links= " + str(data["links"]) + "\n")
     for firstInterface in data["links"]:
         firstRouter = firstInterface.rpartition('-')[0]
