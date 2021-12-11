@@ -35,14 +35,14 @@ class NetworkTopo(Topo):
         info("routers= " + str(routers) + "\n")
         h2 = self.addHost('h2', ip='10.0.8.100/24',
                           defaultRoute='via 10.0.8.1')
-        # h1 = self.addHost('h1', ip='10.0.0.100/24',
-        #                   defaultRoute='via 10.0.0.1')  # define gateway
+        h1 = self.addHost('h1', ip='10.0.0.100/24',
+                          defaultRoute='via 10.0.0.1')  # define gateway
 
         addLinkBwRouters(self, data)
 
         # params2 define the eth2 ip address
-        # self.addLink(h1, routers["r1"], intfName2='r1-eth0',
-        #              params2={'ip': '10.0.0.1/24'})
+        self.addLink(h1, routers["r1"], intfName2='r1-eth0',
+                     params2={'ip': '10.0.0.1/24'})
         self.addLink(h2, routers["r4"], intfName2='r4-eth1',
                      params2={'ip': '10.0.8.1/24'})
 
