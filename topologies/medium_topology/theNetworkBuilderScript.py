@@ -155,7 +155,7 @@ def getAllInterfacesOfRouter(data: dict, router: str, withWildCard: bool):
 
 
 def removeWildCard(ip: str):
-    return ip[:-3]
+    return ip.rpartition("/")[0]
 
 
 def zeroLastDigit(ip: str):
