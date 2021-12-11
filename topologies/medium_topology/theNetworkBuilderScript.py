@@ -80,7 +80,7 @@ def addRoutersToGraph(self, data: dict):
     for router in data["routers"]:
         interface = data["routers"][router]["interfaces"]["real"]
         routers[router] = self.addNode(
-            router, cls=LinuxRouter, ip=interface[getFirstKeyOfDict(interface)])
+            router, cls=LinuxRouter, intf=interface, ip=interface[getFirstKeyOfDict(interface)])
     return routers
 
 
