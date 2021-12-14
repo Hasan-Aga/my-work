@@ -149,6 +149,7 @@ def run():
     remoteController = RemoteController('remoteController', ip = '192.168.1.46', port = 6653)
     net = Mininet(topo=topo , build=False, waitConnected=True)  
     net.addController(remoteController)
+    net.build()
     net.start()
     
     data = getConfigFromJson(file_path("/addressConfiguration.json"))
