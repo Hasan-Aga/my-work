@@ -152,8 +152,10 @@ def linkRouterWithSwitch(net:Mininet, data:dict):
     routers = getRouterNames(data=data)
     for routerName in routers:
         r = net.getNodeByName(routerName)
-        rInterfaces = getAllInterfacesOfRouter(data,r)
-        net.addLink(r, switch, intfName1=rInterfaces[:-1])
+        info('router= ' + routerName +"\n")
+        rInterfaces = getAllInterfacesOfRouter(data,routerName)
+        info('interfaces= ' + str(rInterfaces) + "\n")
+        net.addLink(r, switch, intfName1=rInterfaces[-1])
 
         
 #TODO on the VM, remove old conf and use new ones
