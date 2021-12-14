@@ -2,7 +2,7 @@
 
 from mininet.topo import Topo
 from mininet.net import Mininet
-from mininet.node import Node
+from mininet.node import OVSSwitch, Controller, RemoteController
 from mininet.log import setLogLevel, info
 from mininet.cli import CLI
 import time
@@ -147,7 +147,7 @@ def run():
     "Test linux router"
     topo = NetworkTopo()
     net = Mininet(topo=topo )  
-    # info("type of net = " + str(type(net)) + " \n")
+    remoteController = RemoteController()
     net.start()
     
     data = getConfigFromJson(file_path("/addressConfiguration.json"))
