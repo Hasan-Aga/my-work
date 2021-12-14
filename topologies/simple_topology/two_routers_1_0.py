@@ -146,7 +146,7 @@ def generateOspfConfFiles(data:dict):
 def run():
     "Test linux router"
     topo = NetworkTopo()
-    net = Mininet(controller = None, topo=topo )  # controller is used by s1-s3
+    net = Mininet(topo=topo )  
     # info("type of net = " + str(type(net)) + " \n")
     net.start()
     
