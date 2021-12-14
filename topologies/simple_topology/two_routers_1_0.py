@@ -164,6 +164,7 @@ def linkRouterWithSwitch(net:Mininet, data:dict):
 def run():
     "Test linux router"
     topo = NetworkTopo()
+    # add controller
     c0 = RemoteController('remoteController', ip = '192.168.1.46', port = 6653)
     net = Mininet(topo=topo , build=False, waitConnected=True)  
     net.addController(c0)
@@ -173,6 +174,7 @@ def run():
     
     data = getConfigFromJson(file_path("/addressConfiguration.json"))
 
+    # add switch and link it with routers
     s1 = net.addSwitch('s1', cls=OVSSwitch)
     linkRouterWithSwitch(net, data)
 
