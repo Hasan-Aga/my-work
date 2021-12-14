@@ -147,7 +147,7 @@ def run():
     "Test linux router"
     topo = NetworkTopo()
     net = Mininet(topo=topo )  
-    remoteController = RemoteController()
+    remoteController = RemoteController('remoteController', ip = '192.168.1.46', port = 6653)
     net.start()
     
     data = getConfigFromJson(file_path("/addressConfiguration.json"))
