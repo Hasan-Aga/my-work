@@ -146,9 +146,21 @@ def generateOspfConfFiles(data:dict):
 def run():
     "Test linux router"
     topo = NetworkTopo()
-    remoteController = RemoteController('remoteController', ip = '192.168.1.46', port = 6653)
+    c0 = RemoteController('remoteController', ip = '192.168.1.46', port = 6653)
     net = Mininet(topo=topo , build=False, waitConnected=True)  
-    net.addController(remoteController)
+    net.addController(c0)
+
+    s1 = net.addSwitch('s1', cls=OVSSwitch)
+    r1 = net.getNodeByName('r1')
+    net.addLink(r1, s1)
+
+    info('*** Starting controllers\n')
+    for controller in net.controllers:
+        controller.start()
+
+    info('*** Starting switches\n')
+    net.get('s1').start([c0])
+
     net.build()
     net.start()
     
@@ -158,26 +170,6 @@ def run():
     loadZebraForAllRouters(net, data)
     loadOspfForAllRouters(net, data)
 
-    
-# TODO CONFIGURE ALIASING and generation of router conf files
-    # info('configuring ip aliasing \n')
-    # r1.cmd(addAliasToInterface('r1-eth1:0', '10.0.3.11/24'))
-    # r1.cmd(addAliasToInterface('r2-eth1:0', '10.0.3.21/24'))
-
-    # info('R1 interfaces: \n')
-    # info( net[ 'r1' ].cmd( 'ifconfig' ) )
-    # info('R2 interfaces: \n')
-    # info( net[ 'r2' ].cmd( 'ifconfig' ) )
-
-
-
-    # info('starting zebra and ospfd service:\n')
-    # r1.cmd('zebra -f /usr/local/etc/r1zebra.conf -d -z ~/r1zebra.api -i ~/r1zebra.interface')
-    # r2.cmd('zebra -f /usr/local/etc/r2zebra.conf -d -z ~/r2zebra.api -i ~/r2zebra.interface')
-    # time.sleep(5) #time for zebra to create api socket
-    # r1.cmd('ospfd -f /usr/local/etc/r1ospfd.conf -d -z ~/r1zebra.api -i ~/r1ospfd.interface')
-    # r2.cmd('ospfd -f /usr/local/etc/r2ospfd.conf -d -z ~/r2zebra.api -i ~/r2ospfd.interface')
-    
     
     CLI( net )
     net.stop()
