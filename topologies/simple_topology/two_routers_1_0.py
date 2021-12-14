@@ -150,9 +150,15 @@ def run():
     net = Mininet(topo=topo , build=False, waitConnected=True)  
     net.addController(c0)
 
+    net.build()
+    net.start()
+
     s1 = net.addSwitch('s1', cls=OVSSwitch)
     r1 = net.getNodeByName('r1')
-    net.addLink(r1, s1)
+    net.addLink(r1, s1, intfName1='r1-eth3')
+
+    info('*** Starting switches\n')
+    net.get('s1').start([c0])
 
     info('*** Starting controllers\n')
     for controller in net.controllers:
@@ -161,8 +167,6 @@ def run():
     info('*** Starting switches\n')
     net.get('s1').start([c0])
 
-    net.build()
-    net.start()
     
     data = getConfigFromJson(file_path("/addressConfiguration.json"))
     generateZebraConfFIles(data)
