@@ -2,7 +2,7 @@
 
 from mininet.topo import Topo
 from mininet.net import Mininet
-from mininet.node import OVSSwitch, Controller, RemoteController
+from mininet.node import Node, OVSSwitch, Controller, RemoteController
 from mininet.log import setLogLevel, info
 from mininet.cli import CLI
 import time
