@@ -17,6 +17,16 @@ with open(file_path("/addressConfiguration.json"), "r") as addressFile:
 
 with open(file_path("conf/r1zebra.conf"), "r") as template:
     print(template.read())
+
+def getAllInterfacesOfRouter(data:dict, router:str):
+    interface = data["routers"][router]["interfaces"]["real"]
+    interfaceList = []
+    for i in list(interface):
+        interfaceList.append(i)
+    return interfaceList
+
+
+        
 # routers = {}
 # for index,router in enumerate(data["routers"]):
 #     interfaces = data["routers"][router]["interfaces"]["real"]
