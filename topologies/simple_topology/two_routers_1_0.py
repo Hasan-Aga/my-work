@@ -112,7 +112,14 @@ def getRouterFirstInterface(data:dict, router:str, withWildCard:bool):
     interface = data["routers"][router]["interfaces"]["real"]
     return interface[getFirstKeyOfDict(interface)] if withWildCard else removeWildCard(interface[getFirstKeyOfDict(interface)])
 
-def getAllInterfacesOfRouter(data:dict, router:str, withWildCard:bool):
+def getAllInterfacesOfRouter(data:dict, router:str):
+    interface = data["routers"][router]["interfaces"]["real"]
+    interfaceList = []
+    for i in list(interface):
+        interfaceList.append(i)
+    return interfaceList
+
+def getAllAddressesOfRouter(data:dict, router:str, withWildCard:bool):
     interface = data["routers"][router]["interfaces"]["real"]
     addressList = []
     for i in list(interface.keys()):
@@ -139,6 +146,15 @@ def generateOspfConfFiles(data:dict):
             network = networkCommand)
         with open(file_path(f'/conf/{router}ospfd.conf'), 'w+') as filehandle:
             filehandle.write(confFile)
+
+def linkRouterWithSwitch(net:Mininet, data:dict):
+    switch = net.getNodeByName('s1')
+    routers = getRouterNames(data=data)
+    for routerName in routers:
+        r = net.getNodeByName(routerName)
+        rInterfaces = getAllInterfacesOfRouter(data,r)
+        net.addLink(r, switch, intfName1=rInterfaces[:-1])
+
         
 #TODO on the VM, remove old conf and use new ones
 #TODO clean folders and improve readmes
@@ -152,6 +168,8 @@ def run():
 
     net.build()
     net.start()
+    
+    data = getConfigFromJson(file_path("/addressConfiguration.json"))
 
     s1 = net.addSwitch('s1', cls=OVSSwitch)
     r1 = net.getNodeByName('r1')
@@ -168,7 +186,6 @@ def run():
     net.get('s1').start([c0])
 
     
-    data = getConfigFromJson(file_path("/addressConfiguration.json"))
     generateZebraConfFIles(data)
     generateOspfConfFiles(data)
     loadZebraForAllRouters(net, data)
