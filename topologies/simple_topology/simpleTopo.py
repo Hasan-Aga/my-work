@@ -166,7 +166,7 @@ def run():
     topo = NetworkTopo()
     # add controller
     c0 = RemoteController('remoteController', ip = '192.168.1.47', port = 6653)
-    net = Mininet(topo=topo , build=False, waitConnected=True, controller=RemoteController)  
+    net = Mininet(topo=topo , build=False, waitConnected=True)  
     net.addController(c0)
 
     net.build()
