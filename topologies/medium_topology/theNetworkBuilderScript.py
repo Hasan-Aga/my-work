@@ -35,12 +35,14 @@ class NetworkTopo( Topo ):
         h1 = self.addHost( 'h1', ip=self.getHostIp(data, "h1"), defaultRoute=self.getHostDefaultRoute(data, "h1")) #define gateway
         h2 = self.addHost( 'h2', ip=self.getHostIp(data, "h2"), defaultRoute=self.getHostDefaultRoute(data, "h2"))
 
-        self.linkRoutersWithHosts(data)
+        
 
         s1 = self.addSwitch("s1", cls=OVSSwitch)
         s2 = self.addSwitch("s2", cls=OVSSwitch)
 
-        # addLinkBwRouters(self, data, routers)
+        self.linkRoutersWithHosts(data)
+
+        addLinkBwRouters(self, data, routers)
 
     def getHostDefaultRoute(self, data, host):
         return f'via ${data["hosts"][host]["defaultRoute"]}'
@@ -49,34 +51,31 @@ class NetworkTopo( Topo ):
         return data["hosts"][host]["interfaces"]["ip"]
 
     def linkRoutersWithHosts(self, data):
+        info("hoost \n")
         links = {}
         for key,value in data["links"].items():
             if value[0].lower() == "h":
                 links[key] = value 
         for interface, host in links.items():
             router = interface.rpartition('-')[0]
-            info(str(links) + "\n")
             self.addLink(host,router,intfName2=interface)
-
-#TODO giving IP to interfaces, all must be in one place
-# https://mailman.stanford.edu/pipermail/mininet-discuss/2015-March/005895.html
-   
-
 
 def addLinkBwRouters(self, data: dict, routers: dict):
     for firstInterface in data["links"]:
         secondInterface = data["links"][firstInterface]
         secondRouter = secondInterface.rpartition('-')[0]
-        if(firstInterface.lower()[0] == "s"):
+        if(secondInterface.lower()[0] == "r"):
             firstRouter = firstInterface.rpartition('-')[0]
             firstIp = getIpOfInterface(data, firstInterface, firstRouter)
             secondIp = getIpOfInterface(data, secondInterface, secondRouter)
-            info("linking " + firstRouter +" "+ firstInterface +" "+ firstIp," with "+ secondRouter +" "+ secondInterface +" "+ secondIp +"\n")
             linkRouterWithRouter(self, firstInterface, firstRouter, secondInterface, secondRouter, firstIp, secondIp)
-        else:
+        elif (secondInterface.lower()[0] == "s"):
             firstRouter = firstInterface.rpartition('-')[0]
             firstIp = getIpOfInterface(data, firstInterface, firstRouter)
             linkRouterWithSwitch(self, firstRouter, secondInterface, firstInterface, firstIp)
+        elif (secondInterface.lower()[0] == "h"):
+            pass
+
 
 def linkRouterWithSwitch(self, router, switch, routerInterface, firstIp):
     info("link r with sw "+ router + switch + routerInterface + firstIp +"\n")
@@ -85,7 +84,6 @@ def linkRouterWithSwitch(self, router, switch, routerInterface, firstIp):
             params1={ 'ip':firstIp })
 
 def linkRouterWithRouter(self, firstInterface, firstRouter, secondInterface, secondRouter, firstIp, secondIp):
-    info("linking " + firstInterface + firstIp + " with " + secondInterface + secondIp + "\n")
     self.addLink(firstRouter,secondRouter,
             intfName1=firstInterface,intfName2=secondInterface,
             params1={ 'ip':firstIp }, params2 = { 'ip':secondIp} )
