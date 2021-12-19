@@ -44,10 +44,12 @@ class NetworkTopo( Topo ):
 
         addLinkBwRouters(self, data, routers)
 
+    # TODO: fix routing problem
     def getHostDefaultRoute(self, data, host):
         links = self.getHostLinks(data)
         for routerInterface, currentHost in links.items():
             if(currentHost == host):
+                info("default route= " + getIpOfInterface(data, routerInterface, routerInterface.rpartition('-')[0]))
                 return getIpOfInterface(data, routerInterface, routerInterface.rpartition('-')[0])
 
     def getHostIp(self, data, host):
