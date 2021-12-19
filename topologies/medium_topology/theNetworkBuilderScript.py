@@ -45,20 +45,27 @@ class NetworkTopo( Topo ):
         addLinkBwRouters(self, data, routers)
 
     def getHostDefaultRoute(self, data, host):
-        return f'via ${data["hosts"][host]["defaultRoute"]}'
+        links = self.getHostLinks(data)
+        for routerInterface, currentHost in links.items():
+            if(currentHost == host):
+                return getIpOfInterface(data, routerInterface, routerInterface.rpartition('-')[0])
 
     def getHostIp(self, data, host):
         return data["hosts"][host]["interfaces"]["ip"]
 
     def linkRoutersWithHosts(self, data):
         info("hoost \n")
-        links = {}
-        for key,value in data["links"].items():
-            if value[0].lower() == "h":
-                links[key] = value 
+        links = self.getHostLinks(data) 
         for interface, host in links.items():
             router = interface.rpartition('-')[0]
             self.addLink(host,router,intfName2=interface)
+
+    def getHostLinks(self, data):
+        links = {}
+        for key,value in data["links"].items():
+            if value[0].lower() == "h":
+                links[key] = value
+        return links
 
 def addLinkBwRouters(self, data: dict, routers: dict):
     for firstInterface in data["links"]:

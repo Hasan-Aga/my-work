@@ -43,14 +43,12 @@
         "h1":{
             "interfaces":{
                 "ip":"10.0.0.100/24"
-            },
-            "defaultRoute":"r1-eth2"
+            }
         },
         "h2":{
             "interfaces":{
                 "ip":"10.0.8.100/24"
-            },
-            "defaultRoute":"r2-eth2"
+            }
         }
     },
     "links":{
