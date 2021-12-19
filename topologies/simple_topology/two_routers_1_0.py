@@ -174,15 +174,13 @@ def run():
     
     data = getConfigFromJson(file_path("/addressConfiguration.json"))
 
-    # add switch and link it with routers
-    s1 = net.addSwitch('s1', cls=OVSSwitch)
-    linkRouterWithSwitch(net, data)
+    # # add switch and link it with routers
+    # s1 = net.addSwitch('s1', cls=OVSSwitch)
+    # linkRouterWithSwitch(net, data)
 
-    # link switch with hosts
-    h1 = net.getNodeByName('h1')
-    # h2 = net.getNodeByName('h2')
-    s1 = net.getNodeByName('s1')
-    net.addLink(h1, s1, intfName1="eth4")
+    # # link switch with hosts
+    # h1 = net.getNodeByName('h1')
+    # s1 = net.getNodeByName('s1')
     # net.addLink(h1, s1, intfName1="eth4")
 
     info('*** Starting switches\n')
