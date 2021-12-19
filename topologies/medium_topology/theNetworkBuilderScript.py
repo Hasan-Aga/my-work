@@ -2,7 +2,7 @@
 
 from mininet.topo import Topo
 from mininet.net import Mininet
-from mininet.node import Node
+from mininet.node import Node, OVSSwitch, Controller, RemoteController
 from mininet.log import setLogLevel, info
 from mininet.cli import CLI
 import time
@@ -35,6 +35,9 @@ class NetworkTopo( Topo ):
         h2 = self.addHost( 'h2', ip='10.0.8.100/24', defaultRoute='via 10.0.8.1')
         h1 = self.addHost( 'h1', ip='10.0.0.100/24', defaultRoute='via 10.0.0.1') #define gateway
 
+        s1 = self.addSwitch("s1", cls=OVSSwitch)
+        s2 = self.addSwitch("s2", cls=OVSSwitch)
+
         addLinkBwRouters(self, data, routers)
 
         self.addLink(h1,routers["r1"],intfName2='r1-eth0',params2={ 'ip' : '10.0.0.1/24' })#params2 define the eth2 ip address
@@ -52,10 +55,19 @@ def addLinkBwRouters(self, data: dict, routers: dict):
         secondRouter = secondInterface.rpartition('-')[0]
         firstIp = getIpOfInterface(data, firstInterface, firstRouter)
         secondIp = getIpOfInterface(data, secondInterface, secondRouter)
-        info("linking " + firstInterface + firstIp + " with " + secondInterface + secondIp + "\n")
-        self.addLink(firstRouter,secondRouter,
-        intfName1=firstInterface,intfName2=secondInterface,
-        params1={ 'ip':firstIp }, params2 = { 'ip':secondIp} )
+        if(firstInterface.lower()[0] == "s"):
+            linkRouterWithRouter(self, firstInterface, firstRouter, secondInterface, secondRouter, firstIp, secondIp)
+        else:
+            linkRouterWithSwitch(self, firstInterface, secondInterface, firstInterface)
+            
+def linkRouterWithSwitch(self, router, switch, routerInterface):
+    self.addLink(router, switch, intfName1=routerInterface)
+
+def linkRouterWithRouter(self, firstInterface, firstRouter, secondInterface, secondRouter, firstIp, secondIp):
+    info("linking " + firstInterface + firstIp + " with " + secondInterface + secondIp + "\n")
+    self.addLink(firstRouter,secondRouter,
+            intfName1=firstInterface,intfName2=secondInterface,
+            params1={ 'ip':firstIp }, params2 = { 'ip':secondIp} )
 
 
 def getIpOfInterface(data, interface, router):
