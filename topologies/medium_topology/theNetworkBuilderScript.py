@@ -30,9 +30,7 @@ class NetworkTopo( Topo ):
 
         data = getConfigFromJson(file_path("/addressConfiguration.json"))
         routers = {}
-        routers = addRoutersToGraph(self,data)
-        addRoutersInterfaces(self.nodes(), data)
-        
+        routers = addRoutersToGraph(self,data)    
         
         h2 = self.addHost( 'h2', ip='10.0.8.100/24', defaultRoute='via 10.0.8.1')
         h1 = self.addHost( 'h1', ip='10.0.0.100/24', defaultRoute='via 10.0.0.1') #define gateway
@@ -44,9 +42,7 @@ class NetworkTopo( Topo ):
 
 #TODO giving IP to interfaces, all must be in one place
 # https://mailman.stanford.edu/pipermail/mininet-discuss/2015-March/005895.html
-def addRoutersInterfaces(nodes, data:dict):
-    info("nodes= " + str(nodes))
-    
+   
 
 
 def addLinkBwRouters(self, data: dict, routers: dict):
