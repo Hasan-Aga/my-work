@@ -42,13 +42,13 @@
     "hosts":{
         "h1":{
             "interfaces":{
-                "ip":"10.0.1.100"
+                "ip":"10.0.0.100/24"
             },
             "defaultRoute":"r1-eth2"
         },
         "h2":{
             "interfaces":{
-                "ip":"10.0.2.100"
+                "ip":"10.0.7.100/24"
             },
             "defaultRoute":"r2-eth2"
         }
@@ -57,6 +57,8 @@
         "r1-eth1": "s1",
         "r2-eth0": "s1",
         "r2-eth3": "s2",
-        "r4-eth0": "s2"
+        "r4-eth1": "s2",
+        "r1-eth0": "h1",
+        "r4-eth0": "h2"
         }
 }

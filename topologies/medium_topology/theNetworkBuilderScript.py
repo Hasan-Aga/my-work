@@ -31,18 +31,32 @@ class NetworkTopo( Topo ):
         data = getConfigFromJson(file_path("/addressConfiguration.json"))
         routers = {}
         routers = addRoutersToGraph(self,data)    
-        
-        h2 = self.addHost( 'h2', ip='10.0.8.100/24', defaultRoute='via 10.0.8.1')
-        h1 = self.addHost( 'h1', ip='10.0.0.100/24', defaultRoute='via 10.0.0.1') #define gateway
+        host =""
+        h1 = self.addHost( 'h1', ip=self.getHostIp(data, "h1"), defaultRoute=self.getHostDefaultRoute(data, "h1")) #define gateway
+        h2 = self.addHost( 'h2', ip=self.getHostIp(data, "h2"), defaultRoute=self.getHostDefaultRoute(data, "h2"))
+
+        self.linkRoutersWithHosts(data)
 
         s1 = self.addSwitch("s1", cls=OVSSwitch)
         s2 = self.addSwitch("s2", cls=OVSSwitch)
 
-        self.addLink(h1,routers["r1"],intfName2='r1-eth0',params2={ 'ip' : '10.0.0.1/24' })#params2 define the eth2 ip address
-        self.addLink(h2,routers["r4"],intfName2='r4-eth1',params2={ 'ip' : '10.0.8.1/24' })
-        
-        addLinkBwRouters(self, data, routers)
+        # addLinkBwRouters(self, data, routers)
 
+    def getHostDefaultRoute(self, data, host):
+        return f'via ${data["hosts"][host]["defaultRoute"]}'
+
+    def getHostIp(self, data, host):
+        return data["hosts"][host]["interfaces"]["ip"]
+
+    def linkRoutersWithHosts(self, data):
+        links = {}
+        for key,value in data["links"].items():
+            if value[0].lower() == "h":
+                links[key] = value 
+        for interface, host in links.items():
+            router = interface.rpartition('-')[0]
+            info(str(links) + "\n")
+            self.addLink(host,router,intfName2=interface)
 
 #TODO giving IP to interfaces, all must be in one place
 # https://mailman.stanford.edu/pipermail/mininet-discuss/2015-March/005895.html
@@ -57,8 +71,7 @@ def addLinkBwRouters(self, data: dict, routers: dict):
             firstRouter = firstInterface.rpartition('-')[0]
             firstIp = getIpOfInterface(data, firstInterface, firstRouter)
             secondIp = getIpOfInterface(data, secondInterface, secondRouter)
-            info("linking " + firstRouter +" "+ firstInterface +" "+ firstIp,
-            " with "+ secondRouter +" "+ secondInterface +" "+ secondIp +"\n")
+            info("linking " + firstRouter +" "+ firstInterface +" "+ firstIp," with "+ secondRouter +" "+ secondInterface +" "+ secondIp +"\n")
             linkRouterWithRouter(self, firstInterface, firstRouter, secondInterface, secondRouter, firstIp, secondIp)
         else:
             firstRouter = firstInterface.rpartition('-')[0]
@@ -66,6 +79,7 @@ def addLinkBwRouters(self, data: dict, routers: dict):
             linkRouterWithSwitch(self, firstRouter, secondInterface, firstInterface, firstIp)
 
 def linkRouterWithSwitch(self, router, switch, routerInterface, firstIp):
+    info("link r with sw "+ router + switch + routerInterface + firstIp +"\n")
     self.addLink(router, switch, 
             intfName1=routerInterface,
             params1={ 'ip':firstIp })
@@ -189,7 +203,7 @@ def run():
     data = getConfigFromJson(file_path("/addressConfiguration.json"))
 
 
-    info('*** Starting switches, note: switch names must start with "s"\n')
+    info('*** Starting switches, note: switch names must start with "s" and host must connect to r#-eth0\n')
     for sw in ["s1", "s2"]:
         net.get(sw).start([c0])
 
