@@ -54,7 +54,9 @@
         }
     },
     "links":{
-        "r1-eth1": "r2-eth0",
-        "r2-eth3": "r4-eth0"
+        "r1-eth1": "s1",
+        "r2-eth0": "s1",
+        "r2-eth3": "s2",
+        "r4-eth0": "s2"
         }
 }
