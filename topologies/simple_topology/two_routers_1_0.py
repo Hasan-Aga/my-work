@@ -24,8 +24,6 @@ class LinuxRouter( Node ):
 
 
 class NetworkTopo( Topo ):
-    "A LinuxRouter connecting three IP subnets"
-    "The connection between routers uses IP aliases"
 
     def build( self, **_opts ):
 
