@@ -47,8 +47,16 @@ def addLinkBwRouters(self, data: dict, routers: dict):
         firstRouter = firstInterface.rpartition('-')[0]
         secondInterface = data["links"][firstInterface]
         secondRouter = secondInterface.rpartition('-')[0]
-        self.addLink(firstRouter,secondRouter,intfName1=firstInterface,intfName2=secondInterface)
+        if (firstRouter.lower()[0] == "s"):
+            linkRouterWithRouter(self, firstRouter, secondRouter, firstInterface, secondInterface)
+        else:
+            linkRouterWithSwitch(self, firstRouter, secondRouter, firstInterface)
 
+def linkRouterWithRouter(self, firstRouter, secondRouter, firstInterface, secondInterface):
+    self.addLink(firstRouter,secondRouter,intfName1=firstInterface,intfName2=secondInterface)    
+
+def linkRouterWithSwitch(self, router, switch, routerInterface):
+    self.addLink(router, switch, intfName1=routerInterface)
 
 def getConfigFromJson(path):
     with open(path, "r") as addressFile:
@@ -147,15 +155,15 @@ def generateOspfConfFiles(data:dict):
         with open(file_path(f'/conf/{router}ospfd.conf'), 'w+') as filehandle:
             filehandle.write(confFile)
 
-def linkRouterWithSwitch(net:Mininet, data:dict):
-    switch = net.getNodeByName('s1')
-    routers = getRouterNames(data=data)
-    for routerName in routers:
-        r = net.getNodeByName(routerName)
-        info('router= ' + routerName +"\n")
-        rInterfaces = getAllInterfacesOfRouter(data,routerName)
-        info('interfaces= ' + str(rInterfaces) + "\n")
-        net.addLink(r, switch, intfName1=rInterfaces[-1])
+# def linkRouterWithSwitch(net:Mininet, data:dict):
+#     switch = net.getNodeByName('s1')
+#     routers = getRouterNames(data=data)
+#     for routerName in routers:
+#         r = net.getNodeByName(routerName)
+#         info('router= ' + routerName +"\n")
+#         rInterfaces = getAllInterfacesOfRouter(data,routerName)
+#         info('interfaces= ' + str(rInterfaces) + "\n")
+#         net.addLink(r, switch, intfName1=rInterfaces[-1])
 
         
 #TODO on the VM, remove old conf and use new ones
@@ -183,7 +191,7 @@ def run():
     # s1 = net.getNodeByName('s1')
     # net.addLink(h1, s1, intfName1="eth4")
 
-    info('*** Starting switches\n')
+    info('*** Starting switches, note: switch names must start with "s"\n')
     net.get('s1').start([c0])
 
     info('*** Starting controllers\n')
