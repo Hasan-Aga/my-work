@@ -37,7 +37,7 @@ class NetworkTopo( Topo ):
         h1 = self.addHost( 'h1', ip='10.0.1.100/24', defaultRoute='via 10.0.1.10') #define gateway
         h2 = self.addHost( 'h2', ip='10.0.2.100/24', defaultRoute='via 10.0.2.20')
 
-        self.addSwitch("s1", cls=OVSSwitch)
+        s1 = self.addSwitch("s1", cls=OVSSwitch)
 
         addLinkBwRouters(self, data, routers)
 
@@ -46,13 +46,17 @@ class NetworkTopo( Topo ):
 
 def addLinkBwRouters(self, data: dict, routers: dict):
     for firstInterface in data["links"]:
-        firstRouter = firstInterface.rpartition('-')[0]
         secondInterface = data["links"][firstInterface]
         secondRouter = secondInterface.rpartition('-')[0]
-        if (firstRouter.lower()[0] == "s"):
+        if (firstInterface.lower()[0] == "s"):
+            firstRouter = firstInterface.rpartition('-')[0]
+            secondInterface = data["links"][firstInterface]
+            secondRouter = secondInterface.rpartition('-')[0]
             linkRouterWithRouter(self, firstRouter, secondRouter, firstInterface, secondInterface)
         else:
-            linkRouterWithSwitch(self, firstRouter, secondRouter, firstInterface)
+            firstRouter = firstInterface.rpartition('-')[0]
+            info(" first, second device =  " + firstInterface+","+secondInterface + "\n")
+            linkRouterWithSwitch(self, firstRouter, secondInterface, firstInterface)
 
 def linkRouterWithRouter(self, firstRouter, secondRouter, firstInterface, secondInterface):
     self.addLink(firstRouter,secondRouter,intfName1=firstInterface,intfName2=secondInterface)    
@@ -175,7 +179,7 @@ def run():
     "Test linux router"
     topo = NetworkTopo()
     # add controller
-    c0 = RemoteController('remoteController', ip = '192.168.1.47', port = 6653)
+    c0 = RemoteController('remoteController', ip = '192.168.1.78', port = 6653)
     net = Mininet(topo=topo , build=False, waitConnected=True, controller=RemoteController)  
     net.addController(c0)
 
@@ -199,9 +203,6 @@ def run():
     info('*** Starting controllers\n')
     for controller in net.controllers:
         controller.start()
-
-    info('*** Starting switches\n')
-    net.get('s1').start([c0])
 
     
     generateZebraConfFIles(data)
