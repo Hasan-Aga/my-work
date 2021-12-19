@@ -38,10 +38,11 @@ class NetworkTopo( Topo ):
         s1 = self.addSwitch("s1", cls=OVSSwitch)
         s2 = self.addSwitch("s2", cls=OVSSwitch)
 
-        addLinkBwRouters(self, data, routers)
-
         self.addLink(h1,routers["r1"],intfName2='r1-eth0',params2={ 'ip' : '10.0.0.1/24' })#params2 define the eth2 ip address
         self.addLink(h2,routers["r4"],intfName2='r4-eth1',params2={ 'ip' : '10.0.8.1/24' })
+        
+        addLinkBwRouters(self, data, routers)
+
 
 #TODO giving IP to interfaces, all must be in one place
 # https://mailman.stanford.edu/pipermail/mininet-discuss/2015-March/005895.html
@@ -56,6 +57,8 @@ def addLinkBwRouters(self, data: dict, routers: dict):
             firstRouter = firstInterface.rpartition('-')[0]
             firstIp = getIpOfInterface(data, firstInterface, firstRouter)
             secondIp = getIpOfInterface(data, secondInterface, secondRouter)
+            info("linking " + firstRouter +" "+ firstInterface +" "+ firstIp,
+            " with "+ secondRouter +" "+ secondInterface +" "+ secondIp +"\n")
             linkRouterWithRouter(self, firstInterface, firstRouter, secondInterface, secondRouter, firstIp, secondIp)
         else:
             firstRouter = firstInterface.rpartition('-')[0]
