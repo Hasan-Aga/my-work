@@ -51,8 +51,15 @@ def addLinkBwRouters(self, data: dict, routers: dict):
         secondInterface = data["links"][firstInterface]
         info("linking " + firstInterface + " with " + secondInterface + "\n")
         secondRouter = secondInterface.rpartition('-')[0]
-        self.addLink(firstRouter,secondRouter,intfName1=firstInterface,intfName2=secondInterface)
+        firstIp = getIpOfInterface(data, firstInterface, firstRouter)
+        secondIp = getIpOfInterface(data, secondInterface, secondRouter)
+        self.addLink(firstRouter,secondRouter,
+        intfName1=firstInterface,intfName2=secondInterface,
+        ip1=firstIp, ip2=secondIp)
 
+
+def getIpOfInterface(data, interface, router):
+    return data["routers"][router][interface]
 
 def getConfigFromJson(path):
     with open(path, "r") as addressFile:
