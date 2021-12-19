@@ -41,7 +41,7 @@ class NetworkTopo( Topo ):
         addLinkBwRouters(self, data, routers)
 
         self.addLink(h1,routers["r1"],intfName2='r1-eth0',params2={ 'ip' : '10.0.0.1/24' })#params2 define the eth2 ip address
-        self.addLink(h2,routers["r4"],intfName2='r2-eth1',params2={ 'ip' : '10.0.8.1/24' })
+        self.addLink(h2,routers["r4"],intfName2='r4-eth1',params2={ 'ip' : '10.0.8.1/24' })
 
 #TODO giving IP to interfaces, all must be in one place
 # https://mailman.stanford.edu/pipermail/mininet-discuss/2015-March/005895.html
@@ -50,18 +50,22 @@ class NetworkTopo( Topo ):
 
 def addLinkBwRouters(self, data: dict, routers: dict):
     for firstInterface in data["links"]:
-        firstRouter = firstInterface.rpartition('-')[0]
         secondInterface = data["links"][firstInterface]
         secondRouter = secondInterface.rpartition('-')[0]
-        firstIp = getIpOfInterface(data, firstInterface, firstRouter)
-        secondIp = getIpOfInterface(data, secondInterface, secondRouter)
         if(firstInterface.lower()[0] == "s"):
+            firstRouter = firstInterface.rpartition('-')[0]
+            firstIp = getIpOfInterface(data, firstInterface, firstRouter)
+            secondIp = getIpOfInterface(data, secondInterface, secondRouter)
             linkRouterWithRouter(self, firstInterface, firstRouter, secondInterface, secondRouter, firstIp, secondIp)
         else:
-            linkRouterWithSwitch(self, firstInterface, secondInterface, firstInterface)
-            
-def linkRouterWithSwitch(self, router, switch, routerInterface):
-    self.addLink(router, switch, intfName1=routerInterface)
+            firstRouter = firstInterface.rpartition('-')[0]
+            firstIp = getIpOfInterface(data, firstInterface, firstRouter)
+            linkRouterWithSwitch(self, firstRouter, secondInterface, firstInterface, firstIp)
+
+def linkRouterWithSwitch(self, router, switch, routerInterface, firstIp):
+    self.addLink(router, switch, 
+            intfName1=routerInterface,
+            params1={ 'ip':firstIp })
 
 def linkRouterWithRouter(self, firstInterface, firstRouter, secondInterface, secondRouter, firstIp, secondIp):
     info("linking " + firstInterface + firstIp + " with " + secondInterface + secondIp + "\n")
@@ -171,37 +175,32 @@ def generateOspfConfFiles(data:dict):
 def run():
     "Test linux router"
     topo = NetworkTopo()
-    net = Mininet(controller = None, topo=topo )  # controller is used by s1-s3
-    # info("type of net = " + str(type(net)) + " \n")
+    # add controller
+    c0 = RemoteController('remoteController', ip = '192.168.1.78', port = 6653)
+    net = Mininet(topo=topo , build=False, waitConnected=True, controller=RemoteController)  
+    net.addController(c0)
+
+    net.build()
     net.start()
     
     data = getConfigFromJson(file_path("/addressConfiguration.json"))
+
+
+    info('*** Starting switches, note: switch names must start with "s"\n')
+    for sw in ["s1", "s2"]:
+        net.get(sw).start([c0])
+
+    info('*** Starting controllers\n')
+    for controller in net.controllers:
+        controller.start()
+
+    
     generateZebraConfFIles(data)
     generateOspfConfFiles(data)
     loadZebraForAllRouters(net, data)
     loadOspfForAllRouters(net, data)
 
-    
-# TODO CONFIGURE ALIASING and generation of router conf files
-    # info('configuring ip aliasing \n')
-    # r1.cmd(addAliasToInterface('r1-eth1:0', '10.0.3.11/24'))
-    # r1.cmd(addAliasToInterface('r2-eth1:0', '10.0.3.21/24'))
-
-    # info('R1 interfaces: \n')
-    # info( net[ 'r1' ].cmd( 'ifconfig' ) )
-    # info('R2 interfaces: \n')
-    # info( net[ 'r2' ].cmd( 'ifconfig' ) )
-
-
-
-    # info('starting zebra and ospfd service:\n')
-    # r1.cmd('zebra -f /usr/local/etc/r1zebra.conf -d -z ~/r1zebra.api -i ~/r1zebra.interface')
-    # r2.cmd('zebra -f /usr/local/etc/r2zebra.conf -d -z ~/r2zebra.api -i ~/r2zebra.interface')
-    # time.sleep(5) #time for zebra to create api socket
-    # r1.cmd('ospfd -f /usr/local/etc/r1ospfd.conf -d -z ~/r1zebra.api -i ~/r1ospfd.interface')
-    # r2.cmd('ospfd -f /usr/local/etc/r2ospfd.conf -d -z ~/r2zebra.api -i ~/r2ospfd.interface')
-    
-    
+      
     CLI( net )
     net.stop()
     os.system("killall -9 ospfd zebra")
