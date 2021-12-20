@@ -34,7 +34,7 @@ class NetworkTopo( Topo ):
         host =""
         h1 = self.addHost( 'h1', ip=self.getHostIp(data, "h1"), defaultRoute=self.getHostDefaultRoute(data, "h1")) #define gateway
         h2 = self.addHost( 'h2', ip=self.getHostIp(data, "h2"), defaultRoute=self.getHostDefaultRoute(data, "h2"))
-
+        info("default route= " + self.getHostDefaultRoute(data, "h1") + "\n")
         
 
         s1 = self.addSwitch("s1", cls=OVSSwitch)
@@ -49,8 +49,7 @@ class NetworkTopo( Topo ):
         links = self.getHostLinks(data)
         for routerInterface, currentHost in links.items():
             if(currentHost == host):
-                info("default route= " + getIpOfInterface(data, routerInterface, routerInterface.rpartition('-')[0]))
-                return getIpOfInterface(data, routerInterface, routerInterface.rpartition('-')[0])
+                return f"via {removeWildCard(getIpOfInterface(data, routerInterface, routerInterface.rpartition('-')[0]))}"
 
     def getHostIp(self, data, host):
         return data["hosts"][host]["interfaces"]["ip"]
