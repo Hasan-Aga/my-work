@@ -38,7 +38,7 @@ class NetworkTopo( Topo ):
         routers = addRoutersToGraph(self,data)    
         h1 = self.addHost( 'h1', ip=self.getHostIp(data, "h1"), defaultRoute=self.getHostDefaultRoute(data, "h1")) #define gateway
         h2 = self.addHost( 'h2', ip=self.getHostIp(data, "h2"), defaultRoute=self.getHostDefaultRoute(data, "h2"))
-        # info("default route= " + self.getHostDefaultRoute(data, "h1") + "\n")
+        info("default route= " + self.getHostDefaultRoute(data, "h1") + "\n")
         
 
 
@@ -63,12 +63,12 @@ class NetworkTopo( Topo ):
             router = interface.rpartition('-')[0]
             self.addLink(host,router,intfName2=interface)
 
-    def getHostLinks(self, data):
-        links = {}
-        for key,value in data["links"].items():
-            if value[0].lower() == "h":
-                links[key] = value
-        return links
+    # def getHostLinks(self, data):
+    #     links = {}
+    #     for key,value in data["links"].items():
+    #         if value[0].lower() == "h":
+    #             links[key] = value
+    #     return links
 
 def addLinkBwRouters(self, data: dict, routers: dict):
     for firstInterface in data["links"]:
