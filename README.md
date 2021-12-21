@@ -61,3 +61,11 @@ sudo cp libospf.* /lib
 ## part two: run the experiment
 to run the experiment, first copy one of the topology folders and edit the ```addressConfiguration.json``` file so it has all the routers and the connections between them, the edit the python script by adding your hosts if any and connecting them to the router (edit the builder function where it says ```addHost``` and ```addLink```
 
+## note
+when modifying the "links" section of the json file, make sure that the order is correct by first listing the interface with the smaller number, ex:
+say we want to link `r1-eth1` with `s1` and `r1-eth0` with `s1` as well, then the correct order is:
+    ```
+    "r1-eth0": "s1",
+    "r1-eth1": "s1"
+    ```
+and the same applies for the rest of the links in the topology.

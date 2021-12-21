@@ -1,2 +1,6 @@
 Mininet-Quagga
 
+topologies/test_topology/conf/r1ospfd.conf
+topologies/test_topology/conf/r2ospfd.conf
+topologies/test_topology/conf/r3ospfd.conf
+topologies/test_topology/conf/r4ospfd.conf
