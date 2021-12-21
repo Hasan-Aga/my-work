@@ -42,7 +42,7 @@ class NetworkTopo( Topo ):
         s3 = self.addSwitch("s3", cls=OVSSwitch)
         s4 = self.addSwitch("s4", cls=OVSSwitch)
 
-        self.linkRoutersWithHosts(data)
+        # self.linkRoutersWithHosts(data)
 
         addLinkBwRouters(self, data, routers)
 
@@ -110,7 +110,7 @@ def getConfigFromJson(path):
 
 def addRoutersToGraph(self, data: dict):
     routers = {}
-    for index,router in enumerate(data["routers"]):
+    for router in data["routers"]:
         interface = data["routers"][router]["interfaces"]["real"]
         routers[router] = self.addNode(
                 router, cls=LinuxRouter,
