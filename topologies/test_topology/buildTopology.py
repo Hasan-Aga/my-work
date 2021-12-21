@@ -27,20 +27,22 @@ class NetworkTopo( Topo ):
     "A LinuxRouter "
 
     def build( self, **_opts ):
+        
+        s1 = self.addSwitch("s1", cls=OVSSwitch)
+        s2 = self.addSwitch("s2", cls=OVSSwitch)
+        s3 = self.addSwitch("s3", cls=OVSSwitch)
+        s4 = self.addSwitch("s4", cls=OVSSwitch)
 
         data = getConfigFromJson(file_path("/addressConfiguration.json"))
         routers = {}
         routers = addRoutersToGraph(self,data)    
-        host =""
         h1 = self.addHost( 'h1', ip=self.getHostIp(data, "h1"), defaultRoute=self.getHostDefaultRoute(data, "h1")) #define gateway
         h2 = self.addHost( 'h2', ip=self.getHostIp(data, "h2"), defaultRoute=self.getHostDefaultRoute(data, "h2"))
-        info("default route= " + self.getHostDefaultRoute(data, "h1") + "\n")
+        # info("default route= " + self.getHostDefaultRoute(data, "h1") + "\n")
         
 
-        s1 = self.addSwitch("s1", cls=OVSSwitch)
-        s2 = self.addSwitch("s2", cls=OVSSwitch)
 
-        self.linkRoutersWithHosts(data)
+        # self.linkRoutersWithHosts(data)
 
         addLinkBwRouters(self, data, routers)
 
@@ -72,17 +74,22 @@ def addLinkBwRouters(self, data: dict, routers: dict):
     for firstInterface in data["links"]:
         secondInterface = data["links"][firstInterface]
         secondRouter = secondInterface.rpartition('-')[0]
-        if(secondInterface.lower()[0] == "r"):
+        # ...................
+        # TODO refactor if statement
+        # ...................
+        if(secondInterface.lower()[0] == "r" and firstInterface.lower()[0] == "r"):
             firstRouter = firstInterface.rpartition('-')[0]
             firstIp = getIpOfInterface(data, firstInterface, firstRouter)
             secondIp = getIpOfInterface(data, secondInterface, secondRouter)
             linkRouterWithRouter(self, firstInterface, firstRouter, secondInterface, secondRouter, firstIp, secondIp)
-        elif (secondInterface.lower()[0] == "s"):
+        elif (secondInterface.lower()[0] == "s" and firstInterface.lower()[0] == "r"):
             firstRouter = firstInterface.rpartition('-')[0]
+            info("first int:" + firstInterface)
             firstIp = getIpOfInterface(data, firstInterface, firstRouter)
             linkRouterWithSwitch(self, firstRouter, secondInterface, firstInterface, firstIp)
-        elif (secondInterface.lower()[0] == "h"):
-            pass
+        elif (firstInterface.lower()[0] == "h" and secondInterface.lower()[0] == "s"):
+            switch = secondInterface
+            self.addLink(firstInterface,switch)
 
 
 def linkRouterWithSwitch(self, router, switch, routerInterface, firstIp):
@@ -108,7 +115,7 @@ def getConfigFromJson(path):
 
 def addRoutersToGraph(self, data: dict):
     routers = {}
-    for index,router in enumerate(data["routers"]):
+    for router in data["routers"]:
         interface = data["routers"][router]["interfaces"]["real"]
         routers[router] = self.addNode(
                 router, cls=LinuxRouter,
