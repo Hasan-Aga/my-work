@@ -199,7 +199,7 @@ def run():
     "Test linux router"
     topo = NetworkTopo()
     # add controller
-    c0 = RemoteController('remoteController', ip = '192.168.1.78', port = 6653)
+    c0 = RemoteController('remoteController', ip = '192.168.1.81', port = 6653)
     net = Mininet(topo=topo , build=False, waitConnected=True, controller=RemoteController)  
     net.addController(c0)
 
