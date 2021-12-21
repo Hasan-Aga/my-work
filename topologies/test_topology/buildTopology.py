@@ -39,6 +39,8 @@ class NetworkTopo( Topo ):
 
         s1 = self.addSwitch("s1", cls=OVSSwitch)
         s2 = self.addSwitch("s2", cls=OVSSwitch)
+        s3 = self.addSwitch("s3", cls=OVSSwitch)
+        s4 = self.addSwitch("s4", cls=OVSSwitch)
 
         self.linkRoutersWithHosts(data)
 
