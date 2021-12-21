@@ -48,10 +48,8 @@ class NetworkTopo( Topo ):
 
     # TODO: fix routing problem
     def getHostDefaultRoute(self, data, host):
-        links = self.getHostLinks(data)
-        for routerInterface, currentHost in links.items():
-            if(currentHost == host):
-                return f"via {removeWildCard(getIpOfInterface(data, routerInterface, routerInterface.rpartition('-')[0]))}"
+        defaultRoute = data["hosts"][host]["defaultRoute"]
+        return f"via {removeWildCard(getIpOfInterface(data, defaultRoute, defaultRoute.rpartition('-')[0]))}"
 
     def getHostIp(self, data, host):
         return data["hosts"][host]["interfaces"]["ip"]
