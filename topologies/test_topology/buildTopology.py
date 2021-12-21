@@ -27,7 +27,7 @@ class NetworkTopo( Topo ):
     "A LinuxRouter "
 
     def build( self, **_opts ):
-
+        
         s1 = self.addSwitch("s1", cls=OVSSwitch)
         s2 = self.addSwitch("s2", cls=OVSSwitch)
         s3 = self.addSwitch("s3", cls=OVSSwitch)
@@ -36,7 +36,6 @@ class NetworkTopo( Topo ):
         data = getConfigFromJson(file_path("/addressConfiguration.json"))
         routers = {}
         routers = addRoutersToGraph(self,data)    
-        host =""
         h1 = self.addHost( 'h1', ip=self.getHostIp(data, "h1"), defaultRoute=self.getHostDefaultRoute(data, "h1")) #define gateway
         h2 = self.addHost( 'h2', ip=self.getHostIp(data, "h2"), defaultRoute=self.getHostDefaultRoute(data, "h2"))
         # info("default route= " + self.getHostDefaultRoute(data, "h1") + "\n")
@@ -83,7 +82,7 @@ def addLinkBwRouters(self, data: dict, routers: dict):
             firstIp = getIpOfInterface(data, firstInterface, firstRouter)
             secondIp = getIpOfInterface(data, secondInterface, secondRouter)
             linkRouterWithRouter(self, firstInterface, firstRouter, secondInterface, secondRouter, firstIp, secondIp)
-        elif (secondInterface.lower()[0] == "s" and firstInterface.lower()[0] == "s"):
+        elif (secondInterface.lower()[0] == "s" and firstInterface.lower()[0] == "r"):
             firstRouter = firstInterface.rpartition('-')[0]
             info("first int:" + firstInterface)
             firstIp = getIpOfInterface(data, firstInterface, firstRouter)
