@@ -46,7 +46,7 @@ class NetworkTopo( Topo ):
 
         addLinkBwRouters(self, data, routers)
 
-    # TODO: fix routing problem
+    # TODO: use this function with other topologies
     def getHostDefaultRoute(self, data, host):
         defaultRoute = data["hosts"][host]["defaultRoute"]
         return f"via {removeWildCard(getIpOfInterface(data, defaultRoute, defaultRoute.rpartition('-')[0]))}"
