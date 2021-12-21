@@ -67,6 +67,8 @@ def getConfigFromJson(path):
         data = json.load(addressFile)
     return data
         
+# TODO look at https://github.com/mininet/mininet/blob/8a50d3867c49781c60b6171acc6e4b46954b4281/mininet/node.py#L610
+# look at config()
 def addRoutersToGraph(self, data: dict):
     routers = {}
     for index,router in enumerate(data["routers"]):
