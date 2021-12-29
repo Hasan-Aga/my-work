@@ -1,0 +1,75 @@
+{
+    "routers": {
+        "r1": {
+            "interfaces": {
+                "real": {
+                    "r1-eth0": "10.0.0.1/24",
+                    "r1-eth1": "20.0.0.1/24"
+                },
+                "aliases": {
+                    "r1-eth1:0": ""
+                }
+            }
+
+        },
+        "r2": {
+            "interfaces": {
+                "real": {
+                    "r2-eth0": "30.0.0.1/24",
+                    "r2-eth1": "20.0.0.1/24"
+                },
+                "aliases": {
+                    "r2-eth1:0": ""
+                }
+            }
+        },
+        "r3": {
+            "interfaces": {
+                "real": {
+                    "r3-eth0": "30.0.0.2/24",
+                    "r3-eth1": "40.0.0.1/24"
+                },
+                "aliases": {
+                    "r3-eth1:0": ""
+                }
+            }
+        },
+        "r4": {
+            "interfaces": {
+                "real": {
+                    "r4-eth0": "10.0.0.2/24",
+                    "r4-eth1": "40.0.0.2/24"
+                },
+                "aliases": {
+                    "r4-eth1:0": ""
+                }
+            }
+        }
+    },
+    "hosts":{
+        "h1":{
+            "interfaces":{
+                "ip":"10.0.0.10/24"
+            },
+            "defaultRoute":"r1-eth0"
+        },
+        "h2":{
+            "interfaces":{
+                "ip":"30.0.0.10/24"
+            },
+            "defaultRoute":"r3-eth0"
+        }
+    },
+    "links":{
+        "r1-eth0": "h1",
+        "r1-eth1": "s2",
+        "r2-eth0": "s3",
+        "r2-eth1": "s2",
+        "r3-eth0": "s3",
+        "r3-eth1": "s4",
+        "r4-eth0": "s1",
+        "r4-eth1": "s4",
+        "h1": "s1",
+        "h2": "s3"
+        }
+}
