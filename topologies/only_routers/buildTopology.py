@@ -39,7 +39,7 @@ class NetworkTopo( Topo ):
         
 
 
-        # self.linkRoutersWithHosts(data)
+        self.linkRoutersWithHosts(data)
 
         addLinkBwRouters(self, data, routers)
 
@@ -58,12 +58,12 @@ class NetworkTopo( Topo ):
             router = interface.rpartition('-')[0]
             self.addLink(host,router,intfName2=interface)
 
-    # def getHostLinks(self, data):
-    #     links = {}
-    #     for key,value in data["links"].items():
-    #         if value[0].lower() == "h":
-    #             links[key] = value
-    #     return links
+    def getHostLinks(self, data):
+        links = {}
+        for key,value in data["links"].items():
+            if value[0].lower() == "h":
+                links[key] = value
+        return links
 
 def addLinkBwRouters(self, data: dict, routers: dict):
     for firstInterface in data["links"]:
@@ -82,9 +82,9 @@ def addLinkBwRouters(self, data: dict, routers: dict):
             info("first int:" + firstInterface)
             firstIp = getIpOfInterface(data, firstInterface, firstRouter)
             linkRouterWithSwitch(self, firstRouter, secondInterface, firstInterface, firstIp)
-        elif (firstInterface.lower()[0] == "h" and secondInterface.lower()[0] == "s"):
-            switch = secondInterface
-            self.addLink(firstInterface,switch)
+        # elif (firstInterface.lower()[0] == "h" and secondInterface.lower()[0] == "s"):
+        #     switch = secondInterface
+        #     self.addLink(firstInterface,switch)
 
 
 def linkRouterWithSwitch(self, router, switch, routerInterface, firstIp):
