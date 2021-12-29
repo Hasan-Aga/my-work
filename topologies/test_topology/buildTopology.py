@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+from typing import Protocol
 from mininet.topo import Topo
 from mininet.net import Mininet
 from mininet.node import Node, OVSSwitch, Controller, RemoteController
@@ -28,10 +29,10 @@ class NetworkTopo( Topo ):
 
     def build( self, **_opts ):
         
-        s1 = self.addSwitch("s1", cls=OVSSwitch)
-        s2 = self.addSwitch("s2", cls=OVSSwitch)
-        s3 = self.addSwitch("s3", cls=OVSSwitch)
-        s4 = self.addSwitch("s4", cls=OVSSwitch)
+        s1 = self.addSwitch("s1", cls=OVSSwitch, protocols="OpenFlow13")
+        s2 = self.addSwitch("s2", cls=OVSSwitch, protocols="OpenFlow13")
+        s3 = self.addSwitch("s3", cls=OVSSwitch, protocols="OpenFlow13")
+        s4 = self.addSwitch("s4", cls=OVSSwitch, protocols="OpenFlow13")
 
         data = getConfigFromJson(file_path("/addressConfiguration.json"))
         routers = {}
@@ -204,7 +205,8 @@ def run():
     "Test linux router"
     topo = NetworkTopo()
     # add controller
-    c0 = RemoteController('remoteController', ip = '192.168.1.81', port = 6653)
+    info("HOST IP= " + os.environ['HOST_IP'] + "\n")
+    c0 = RemoteController('remoteController', ip = os.environ['HOST_IP'], port = 6653, protocol='tcp')
     net = Mininet(topo=topo , build=False, waitConnected=True, controller=RemoteController)  
     net.addController(c0)
 
