@@ -3,7 +3,7 @@
 from typing import Protocol
 from mininet.topo import Topo
 from mininet.net import Mininet
-from mininet.node import Node, RemoteController
+from mininet.node import Node
 from mininet.log import setLogLevel, info
 from mininet.cli import CLI
 import time
@@ -202,23 +202,12 @@ def run():
     topo = NetworkTopo()
     # add controller
     info("HOST IP= " + os.environ['HOST_IP'] + "\n")
-    c0 = RemoteController('remoteController', ip = os.environ['HOST_IP'], port = 6653, protocol='tcp')
-    net = Mininet(topo=topo , build=False, waitConnected=True, controller=RemoteController)  
-    net.addController(c0)
+    net = Mininet(topo=topo , build=False, waitConnected=True)  
 
     net.build()
     net.start()
     
     data = getConfigFromJson(file_path("/addressConfiguration.json"))
-
-
-    info('*** Starting switches, note: switch names must start with "s" and host must connect to r#-eth0\n')
-    for sw in ["s1", "s2"]:
-        net.get(sw).start([c0])
-
-    info('*** Starting controllers\n')
-    for controller in net.controllers:
-        controller.start()
 
     
     generateZebraConfFIles(data)
