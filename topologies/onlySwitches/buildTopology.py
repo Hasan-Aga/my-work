@@ -25,5 +25,8 @@ class SwitchTopo(Topo):
         self.addLink(rightHost, s3)
         self.addLink(s3, s4)
         self.addLink(s4, s1)
-
+# To run use: 
+# sudo mn --custom buildTopology.py  --topo switchTopo --controller=remote,ip=$HOST_IP
+# where $HOST_IP is either an environment variable of the machine where the controller is
+# or you can manually enter it.
 topos = { 'switchTopo': ( lambda: SwitchTopo() ) }
