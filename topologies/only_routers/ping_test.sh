@@ -1,13 +1,14 @@
 #!/bin/bash
 
+# call script with interface names of device
+for arg
+do ip link set $arg down
 
-ip link set $1-eth1 down
-ip link set $1-eth2 down
 
 
 echo "Started ping test ..."
 
 read -t 10 -p "Waiting for 10 seconds ..."
 
-ip link set $1-eth1 up
-ip link set $1-eth2 up
+for arg
+do ip link set $arg up
