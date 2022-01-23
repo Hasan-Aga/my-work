@@ -1,13 +1,16 @@
 #!/bin/sh
-cd /home
+
+echo attempting to extract Quagga...
 tar -xf quagga-1.2.1.tar.gz
 cd quagga-1.2.1/
 
 sudo apt update
 
+sudo apt update
+
 sudo apt install gawk
 
-sudo apt install libreadline6 libreadline6-dev
+sudo apt install libreadline-dev
 
 sudo apt install libtool
 
@@ -26,4 +29,3 @@ sudo apt install libc-ares-dev
 sudo ./configure  --enable-vtysh --enable-user=root --enable-group=root --enable-vty-group=root
 
 sudo make install
-
